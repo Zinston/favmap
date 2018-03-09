@@ -18,24 +18,61 @@
 	</head>
 
 	<body>
+		<!--<nav class="navbar fixed-top transparent">
+			<button id="sidebarCollapse" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		    	<i class="fas fa-bars"></i>
+		    </button>
+
+		    <div class="navbar-item">
+			    <form class="mx-2 my-auto form-inline w-100" data-bind="submit: searchPlace">
+					<input id="places-search" data-bind="textInput: searchInput" class="front-searchbox form-control mb-xs-2 mr-2" type="text" placeholder="Name of the place">
+					<input id="front-search-btn" type="submit" class="btn btn-info mr-2" value="Go">
+					<button id="front-add-btn" type="button" class="btn btn-danger" data-bind="click: savePlace">Save</button>
+				</form>
+			</div>
+		</nav>-->
+
+		<nav class="navbar fixed-top transparent">
+		    <form class="mx-2 my-auto d-inline w-100">
+	            <div class="input-group">
+	            	<button id="sidebarCollapse" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				    	<i class="fas fa-bars"></i>
+				    </button>
+	                <input id="places-search" data-bind="textInput: searchInput" type="text" class="form-control border border-right-0" placeholder="Search...">
+	                <span class="input-group-append mr-2">
+		                <button id="front-search-btn" type="submit" class="btn btn-outline-secondary border border-left-0">
+		                    <i class="fa fa-search"></i>
+		                </button>
+					</span>
+					<button id="front-add-btn" type="button" class="btn btn-danger" data-bind="click: savePlace">Save</button>
+	            </div>
+	        </form>
+		</nav>
+
+		<!--<div class="front-controls">
+			<div class="row">
+				<div class="col-lg-1 col-xs-3 text-left">
+					<button id="sidebarCollapse" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				    	<i class="fas fa-bars"></i>
+				    </button>
+				</div>
+				<div class="col-lg-11 col-xs-9">
+					<form class="searchbox-form form-inline" data-bind="submit: searchPlace">
+						<input id="places-search" data-bind="textInput: searchInput" class="front-searchbox form-control" type="text" placeholder="Name of the place">
+						<input id="front-search-btn" type="submit" class="btn btn-info" value="Go">
+						<button id="front-add-btn" type="button" class="btn btn-danger" data-bind="click: savePlace">Save</button>
+					</form>
+				</div>
+			</div>
+		</div>-->
+
 		<!-- Sidebar -->
-		<button id="sidebarCollapse" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-	    	<i class="fas fa-bars"></i>
-	    </button>
 		<nav id="sidebar">
         	<div class="sidebar-header">
         		<h3>Your favorite places</h3>
         	</div>
 	    </nav>
 	    <!-- End sidebar -->
-
-	    <div class="front-controls">
-			<form class="searchbox-form" data-bind="submit: searchPlace">
-				<input id="places-search" data-bind="textInput: searchInput" class="front-searchbox form-control" type="text" placeholder="Name of the place">
-				<input id="front-search-btn" type="submit" class="btn btn-info" value="Go">
-				<button id="front-add-btn" type="button" class="btn btn-danger" data-bind="click: savePlace">Save</button>
-			</form>
-		</div>
 
 		<div id="map"></div>
 

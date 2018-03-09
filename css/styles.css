@@ -10,10 +10,7 @@ html, body {
 }
 
 #sidebarCollapse {
-	position: fixed;
-	z-index: 200;
-	top: 10px;
-	left: 10px;
+	margin-right: 10px;
 }
 
 #sidebar {
@@ -21,8 +18,8 @@ html, body {
 	float: left;
 	width: 0;
 	height: 100%;
-	left: 0;
-	top: 0;
+	padding-top: 50px;
+	padding-left: 10px;
 }
 
 #sidebar.active {
@@ -30,19 +27,12 @@ html, body {
 	width: 300px;
 }
 
-.front-controls {
-	position: fixed;
-	width: 100%;
-	top: 10px;
-	z-index: 100;
-	text-align: center;
-}
-
-.searchbox-form {
-	margin: auto;
-}
-
-.front-searchbox {
-	width: 50%;
-	display: inline;
+.navbar.transparent {
+	border-width: 0px;
+    -webkit-box-shadow: 0px 0px;
+    box-shadow: 0px 0px;
+    background-color: rgba(0,0,0,0.0);
+    background-image: -webkit-gradient(linear, 50.00% 0.00%, 50.00% 100.00%, color-stop( 0% , rgba(0,0,0,0.00)),color-stop( 100% , rgba(0,0,0,0.00)));
+    background-image: -webkit-linear-gradient(270deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
+    background-image: linear-gradient(180deg,rgba(0,0,0,0.00) 0%,rgba(0,0,0,0.00) 100%);
 }

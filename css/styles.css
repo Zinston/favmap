@@ -8,3 +8,11 @@ html, body {
 #map {
 	height: 100%;
 }
+
+.front-controls {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	right: auto;
+	z-index: 100;
+}

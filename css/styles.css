@@ -10,9 +10,14 @@ html, body {
 }
 
 .front-controls {
-	position: absolute;
+	position: fixed;
+	width: 100%;
 	top: 10px;
-	left: 50%;
-	right: auto;
 	z-index: 100;
+	text-align: center;
+}
+
+.front-searchbox {
+	width: 50%;
+	margin: auto;
 }

@@ -37,6 +37,7 @@ function ViewModel() {
 		    	return;
 		    };
 		    that.zoomOnPlace(places[0]);
+		    that.addMarker(places[0]);
 		});
 
 		return searchBox;
@@ -48,26 +49,39 @@ function ViewModel() {
 	this.searchPlace = function() {
 		var bounds = that.map.getBounds();
         var placesService = new google.maps.places.PlacesService(map);
+
         placesService.textSearch({
             query: that.searchInput(),
             bounds: bounds
         }, function(places, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 that.zoomOnPlace(places[0]);
+                that.addMarker(places[0]);
             } else {
-            	console.log(google.maps.places.PlacesServiceStatus);
+            	console.log(status);
             };
         });
 	};
 
 	this.zoomOnPlace = function(place) {
 		// Get the latlng
-		var location = place.geometry.location;
+		var latlng = place.geometry.location;
 	    
 	    // Center the map on it and zoom
-	    map.setCenter(location);
+	    map.setCenter(latlng);
 	    map.setZoom(17);
 	};
+
+	this.addMarker = function(place) {
+		var latlng = place.geometry.location;
+		var formatted_address = place.formatted_address;
+
+		var marker = new google.maps.Marker({
+			position: latlng,
+			map: map,
+			title: formatted_address
+        });
+	}
 };
 
 // This function is called as a callback on loading the Google Maps API

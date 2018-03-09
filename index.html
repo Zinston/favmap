@@ -17,7 +17,10 @@
 
 	<body>
 		<div class="front-controls">
-			<input id="places-search" class="front-searchbox form-control" type="text" placeholder="Name of the place">
+			<form class="searchbox-form" data-bind="submit: searchPlace">
+				<input id="places-search" data-bind="textInput: searchInput" class="front-searchbox form-control" type="text" placeholder="Name of the place">
+				<button id="front-search-btn" type="submit" class="btn btn-info">Go</button>
+			</form>
 		</div>
 		<div id="map"></div>
 

@@ -17,7 +17,11 @@ html, body {
 	text-align: center;
 }
 
+.searchbox-form {
+	margin: auto;
+}
+
 .front-searchbox {
 	width: 50%;
-	margin: auto;
+	display: inline;
 }

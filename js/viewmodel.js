@@ -3,6 +3,10 @@ function ViewModel() {
 
 	this.searchInput = ko.observable();
 
+	this.map;
+	this.searchBox;
+	this.tempMarker;
+
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
 		// Constructor creates a new map - only center and zoom are required.
@@ -81,7 +85,21 @@ function ViewModel() {
 			map: map,
 			title: formatted_address
         });
-	}
+
+        that.updateTempMarker(marker);
+	};
+
+	this.saveMarker = function() {
+
+	};
+
+	this.updateTempMarker = function(marker) {
+		// Remove previous tempMarker
+		if (that.tempMarker) {
+			that.tempMarker.setMap(null);
+		};
+		that.tempMarker = marker;
+	};
 };
 
 // This function is called as a callback on loading the Google Maps API

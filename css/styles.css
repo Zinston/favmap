@@ -9,6 +9,25 @@ html, body {
 	height: 100%;
 }
 
+#sidebarCollapse {
+	position: fixed;
+	z-index: 200;
+}
+
+#sidebar {
+	display: none;
+	float: left;
+	width: 0;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+
+#sidebar.active {
+	display: block;
+	width: 300px;
+}
+
 .front-controls {
 	position: fixed;
 	width: 100%;

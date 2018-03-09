@@ -17,13 +17,25 @@
 	</head>
 
 	<body>
-		<div class="front-controls">
+		<!-- Sidebar -->
+		<button id="sidebarCollapse" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+	    	MENU
+	    </button>
+		<nav id="sidebar">
+        	<div class="sidebar-header">
+        		<h3>Your favorite places</h3>
+        	</div>
+	    </nav>
+	    <!-- End sidebar -->
+
+	    <div class="front-controls">
 			<form class="searchbox-form" data-bind="submit: searchPlace">
 				<input id="places-search" data-bind="textInput: searchInput" class="front-searchbox form-control" type="text" placeholder="Name of the place">
 				<input id="front-search-btn" type="submit" class="btn btn-info" value="Go">
 				<button id="front-add-btn" type="button" class="btn btn-danger" data-bind="click: savePlace">Save</button>
 			</form>
 		</div>
+
 		<div id="map"></div>
 
 		<script async defer

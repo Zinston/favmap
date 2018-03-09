@@ -123,4 +123,7 @@ function ViewModel() {
 function init() {
 	var vm = new ViewModel();
 	ko.applyBindings(vm);
+	$('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+    });
 };

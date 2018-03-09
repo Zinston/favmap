@@ -20,7 +20,7 @@
 			<form class="searchbox-form" data-bind="submit: searchPlace">
 				<input id="places-search" data-bind="textInput: searchInput" class="front-searchbox form-control" type="text" placeholder="Name of the place">
 				<input id="front-search-btn" type="submit" class="btn btn-info" value="Go">
-				<button id="front-add-btn" type="button" class="btn btn-danger">Save</button>
+				<button id="front-add-btn" type="button" class="btn btn-danger" data-bind="click: savePlace">Save</button>
 			</form>
 		</div>
 		<div id="map"></div>

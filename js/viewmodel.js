@@ -6,6 +6,8 @@ function ViewModel() {
 	this.map;
 	this.searchBox;
 	this.tempMarker;
+	this.currentPlace;
+	this.savedPlaces = [];
 
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
@@ -41,7 +43,7 @@ function ViewModel() {
 		    	return;
 		    };
 		    that.zoomOnPlace(places[0]);
-		    that.addMarker(places[0]);
+		    that.addMarker(places[0], true);
 		});
 
 		return searchBox;
@@ -60,7 +62,7 @@ function ViewModel() {
         }, function(places, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 that.zoomOnPlace(places[0]);
-                that.addMarker(places[0]);
+                that.addMarker(places[0], true);
             } else {
             	console.log(status);
             };
@@ -74,9 +76,13 @@ function ViewModel() {
 	    // Center the map on it and zoom
 	    map.setCenter(latlng);
 	    map.setZoom(17);
+
+	    // Set currentPlace to this place
+	    that.currentPlace = place;
 	};
 
-	this.addMarker = function(place) {
+	// Adds a marker to the map. If temp is True, the marker is temporary.
+	this.addMarker = function(place, temp) {
 		var latlng = place.geometry.location;
 		var formatted_address = place.formatted_address;
 
@@ -86,11 +92,9 @@ function ViewModel() {
 			title: formatted_address
         });
 
-        that.updateTempMarker(marker);
-	};
-
-	this.saveMarker = function() {
-
+		if (temp) {
+	        that.updateTempMarker(marker);
+	    };
 	};
 
 	this.updateTempMarker = function(marker) {
@@ -99,6 +103,17 @@ function ViewModel() {
 			that.tempMarker.setMap(null);
 		};
 		that.tempMarker = marker;
+	};
+
+	this.savePlace = function() {
+		if (!that.currentPlace) {
+			console.log("Error: there is no place to save.");
+			return;
+		};
+		that.savedPlaces.push(that.currentPlace);
+		that.addMarker(that.currentPlace)
+
+		console.log(that.savedPlaces);
 	};
 };
 

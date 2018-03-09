@@ -7,7 +7,7 @@ function ViewModel() {
 	this.searchBox;
 	this.tempMarker;
 	this.currentPlace;
-	this.savedPlaces = [];
+	this.savedPlaces = ko.observableArray();
 
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
@@ -110,7 +110,9 @@ function ViewModel() {
 			console.log("Error: there is no place to save.");
 			return;
 		};
-		that.savedPlaces.push(that.currentPlace);
+
+		var thisPlace = new Place(that.currentPlace);
+		that.savedPlaces.push(thisPlace);
 		that.addMarker(that.currentPlace)
 
 		console.log(that.savedPlaces);

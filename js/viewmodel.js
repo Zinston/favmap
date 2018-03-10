@@ -5,6 +5,7 @@ function ViewModel() {
 
 	this.map;
 	this.searchBox;
+
 	this.tempMarker;
 	this.largeInfowindow = new google.maps.InfoWindow();
 	this.currentPlace;
@@ -38,66 +39,46 @@ function ViewModel() {
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
 		// Constructor creates a new map - only center and zoom are required.
-		map = new google.maps.Map(document.getElementById('map'), {
+		this.map = new google.maps.Map(document.getElementById('map'), {
 			center: {lat: 40.7413549, lng: -73.9980244},
 			zoom: 13,
 	        disableDefaultUI: true,
 	        maxZoom: 17
 		});
-
-		return map;
 	};
 
 	// Initialize the searchbox. Called on load (see below).
 	this.initSearchbox = function() {
 		// Create a searchbox in order to execute a places search
 		var searchElem = document.getElementById('places-search');
-	    var searchBox = new google.maps.places.SearchBox(searchElem);
+	    this.searchBox = new google.maps.places.SearchBox(searchElem);
 
 	    // Bias the SearchBox results towards current map's viewport.
 	    that.map.addListener('bounds_changed', function() {
-	    	searchBox.setBounds(map.getBounds());
+	    	that.searchBox.setBounds(that.map.getBounds());
 	    });
 
 	    // When selecting a place suggested by Google...
-	    google.maps.event.addListener(searchBox, 'places_changed', function () {
+	    google.maps.event.addListener(that.searchBox, 'places_changed', function () {
+	    	that.searchPlace();
 	    	// Trigger an input event on the searchBox so KO updates the value
-		    ko.utils.triggerEvent(searchElem, "input");
-		    // Get the place
-		    var places = searchBox.getPlaces();
-		    if (!places[0]) {
-		    	that.searchPlace(that.searchInput());
-		    	return;
-		    };
-		    console.log(places[0]);
-		    var place = new Place(places[0]);
-		    that.zoomOnPlace(place);
-		    that.addMarker(place, true);
+		    //ko.utils.triggerEvent(searchElem, "input");
 		});
-
-		return searchBox;
 	};
 
-	this.map = this.initMap();
-	this.searchBox = this.initSearchbox();
+	this.initMap();
+	this.initSearchbox();
 
 	this.searchPlace = function() {
-		var bounds = that.map.getBounds();
-        var placesService = new google.maps.places.PlacesService(map);
-
-        placesService.textSearch({
-            query: that.searchInput(),
-            bounds: bounds
-        }, function(places, status) {
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-            	console.log(places[0]);
-                var place = new Place(places[0]);
-			    that.zoomOnPlace(place);
-			    that.addMarker(place, true);
-            } else {
-            	console.log(status);
-            };
-        });
+		// Get the place
+	    var places = that.searchBox.getPlaces();
+	    if (places.length == 0) {
+	    	console.log("Couldn't find a place...");
+	    	return;
+	    };
+	    var place = new Place(places[0]);
+	    that.zoomOnPlace(place);
+	    that.addMarker(place, true);
 	};
 
 	this.zoomOnPlace = function(place) {
@@ -105,8 +86,8 @@ function ViewModel() {
 		var latlng = place.location;
 	    
 	    // Center the map on it and zoom
-	    map.setCenter(latlng);
-	    map.setZoom(17);
+	    that.map.setCenter(latlng);
+	    that.map.setZoom(17);
 
 	    // Set currentPlace to this place
 	    that.currentPlace = place;
@@ -215,6 +196,11 @@ function ViewModel() {
 		    	console.log(that.filteredPlaces());
 		    };
 		};
+	};
+
+	this.doNothing = function() {
+		// This function is just there so we can press submit on a form
+		// and not reload the page when we rely on events to do the stuff.
 	};
 };
 

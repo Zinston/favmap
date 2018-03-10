@@ -92,13 +92,36 @@ function ViewModel() {
 		var marker = new google.maps.Marker({
 			position: latlng,
 			map: map,
-			title: formatted_address
+			title: place.name
         });
 
 		if (temp) {
 	        that.updateTempMarker(marker);
 	    };
+
+	    that.addInfoWindow(marker, place);
 	};
+
+	this.addInfoWindow = function(marker, place) {
+		var largeInfowindow = new google.maps.InfoWindow();
+
+		marker.addListener('click', function() {
+            that.populateInfoWindow(this, largeInfowindow, place);
+        });
+	};
+
+	this.populateInfoWindow = function(marker, infowindow, place) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+          	infowindow.marker = marker;
+          	infowindow.setContent('<h5>' + place.name + '</h5>' + place.formatted_address);
+          	infowindow.open(that.map, marker);
+          	// Make sure the marker property is cleared if the infowindow is closed.
+          	infowindow.addListener('closeclick',function(){
+            	infowindow.setMarker = null;
+          	});
+        };
+    };
 
 	this.updateTempMarker = function(marker) {
 		// Remove previous tempMarker
@@ -120,7 +143,6 @@ function ViewModel() {
 
 	this.locateSavedPlace = function(place) {
 		that.zoomOnPlace(place);
-		that.addMarker(place, true);
 	};
 };
 

@@ -8,8 +8,18 @@ function ViewModel() {
 	this.tempMarker;
 	this.largeInfowindow = new google.maps.InfoWindow();
 	this.currentPlace;
+
 	this.savedPlaces = ko.observableArray();
-	this.filterString = "";
+	this.savedPlaces.subscribe(function(){
+		// Add all places to filteredPlaces
+		that.filterPlaces();
+		// Reinitialize the filter
+		that.filterString("");
+	});
+
+	this.filterString = ko.observable("");
+	this.filteredPlaces = ko.observableArray();
+	this.filterString.subscribe(function(){that.filterPlaces()});
 
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
@@ -154,10 +164,20 @@ function ViewModel() {
 	};
 
 	this.filterPlaces = function() {
-		if (that.filterString != "") {
-			console.log("filtering by " + that.filterString);
+		console.log(that.filterString());
+		that.filteredPlaces.removeAll();
+		for (var i = 0; i < that.savedPlaces().length; i++) {
+			var item = that.savedPlaces()[i];
+			var itemName = item.place.name;
+			console.log('place name: ' + item.place.name);
+			console.log('filter string: ' + that.filterString());
+			console.log('result: ' + itemName.indexOf(that.filterString()));
+			if (itemName.indexOf(that.filterString()) >= 0) {
+		    	that.filteredPlaces.push(item);
+		    	console.log(that.filteredPlaces());
+		    };
 		};
-	};
+	}
 };
 
 // This function is called as a callback on loading the Google Maps API

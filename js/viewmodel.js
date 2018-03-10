@@ -1,7 +1,18 @@
 function ViewModel() {
 	var that = this;
 
-	this.searchInput = ko.observable();
+	this.searchInput = ko.observable("");
+	this.filterString = ko.observable("");
+	this.toast = ko.observable("");
+
+	this.toast.subscribe(function() {
+		$('#toast').toggleClass('show');
+
+	    // After 3 seconds, remove the show class from DIV
+	    setTimeout(function() {
+	    	$('#toast').toggleClass('show');
+	    }, 3000);
+	})
 
 	this.map;
 	this.searchBox;
@@ -29,12 +40,12 @@ function ViewModel() {
 		//localStorage.setItem("savedPlaces", ko.toJSON(that.savedPlaces()));
 	});
 
-	this.filterString = ko.observable("");
 	this.filteredPlaces = ko.observableArray();
 	this.filterString.subscribe(function() {
 		that.filterPlaces();
 		that.updateMarkers();
 	});
+
 
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
@@ -73,7 +84,7 @@ function ViewModel() {
 		// Get the place
 	    var places = that.searchBox.getPlaces();
 	    if (places.length == 0) {
-	    	console.log("Couldn't find a place...");
+	    	that.toast("Error: Couldn't find a place.");
 	    	return;
 	    };
 	    var place = new Place(places[0]);
@@ -170,6 +181,7 @@ function ViewModel() {
 	this.savePlace = function() {
 		if (!that.currentPlace) {
 			console.log("Error: there is no place to save.");
+			that.toast("Error: there is no place to save.");
 			return;
 		};
 

@@ -182,7 +182,6 @@ function ViewModel() {
 
 	this.savePlace = function() {
 		if (!that.currentPlace) {
-			console.log("Error: there is no place to save.");
 			that.toast({type: "error", message: "Error: there is no place to save."});
 			return;
 		};
@@ -191,6 +190,7 @@ function ViewModel() {
 		that.savedPlaces.push({'place': that.currentPlace, 'marker': marker});
 		that.tempMarker.setMap(null);
 		that.searchInput("");
+		that.toast({type: "success", message: that.currentPlace.name + " was saved as a favorite."});
 	};
 
 	this.locateSavedPlace = function(place) {
@@ -207,7 +207,6 @@ function ViewModel() {
 			var itemAddress = item.place.formatted_address.toLowerCase();
 			if (itemName.indexOf(filter) >= 0 || itemAddress.indexOf(filter) >= 0) {
 		    	that.filteredPlaces.push(item);
-		    	console.log(that.filteredPlaces());
 		    };
 		};
 	};

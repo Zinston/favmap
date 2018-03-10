@@ -90,6 +90,7 @@ function ViewModel() {
             bounds: bounds
         }, function(places, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
+            	console.log(places[0]);
                 var place = new Place(places[0]);
 			    that.zoomOnPlace(place);
 			    that.addMarker(place, true);
@@ -142,7 +143,7 @@ function ViewModel() {
 	this.populateInfoWindow = function(marker, place) {
 		var content = '<h5>' + place.name + '</h5>';
 		content += '<em>' + place.type + '</em><br><br>';
-		content += place.html_address;
+		content += place.formatted_address;
         // Check to make sure the infowindow is not already opened on this marker.
         if (that.largeInfowindow.marker != marker) {
           	that.largeInfowindow.marker = marker;

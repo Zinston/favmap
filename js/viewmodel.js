@@ -10,16 +10,30 @@ function ViewModel() {
 	this.currentPlace;
 
 	this.savedPlaces = ko.observableArray();
-	this.savedPlaces.subscribe(function(){
+	// Add saved places from local storage
+	/*var lsPlaces = localStorage.getItem('savedPlaces')
+	if (lsPlaces) {
+		console.log(lsPlaces);
+		this.savedPlaces(lsPlaces);
+		console.log(this.savedPlaces());
+	};*/
+	this.savedPlaces.subscribe(function() {
 		// Add all places to filteredPlaces
 		that.filterPlaces();
 		// Reinitialize the filter
 		that.filterString("");
+		// Update the markers
+		that.updateMarkers();
+		// Store itself in localStorage
+		//localStorage.setItem("savedPlaces", ko.toJSON(that.savedPlaces()));
 	});
 
 	this.filterString = ko.observable("");
 	this.filteredPlaces = ko.observableArray();
-	this.filterString.subscribe(function(){that.filterPlaces()});
+	this.filterString.subscribe(function() {
+		that.filterPlaces();
+		that.updateMarkers();
+	});
 
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
@@ -148,6 +162,23 @@ function ViewModel() {
 		that.tempMarker = marker;
 	};
 
+	this.hideSavedMarkers = function() {
+		for (var i = 0; i < that.savedPlaces().length; i++) {
+			that.savedPlaces()[i].marker.setMap(null);
+		};
+	};
+
+	this.showFilteredMarkers = function() {
+		for (var i = 0; i < that.filteredPlaces().length; i++) {
+			that.filteredPlaces()[i].marker.setMap(that.map);
+		};
+	};
+
+	this.updateMarkers = function() {
+		that.hideSavedMarkers();
+		that.showFilteredMarkers();
+	};
+
 	this.savePlace = function() {
 		if (!that.currentPlace) {
 			console.log("Error: there is no place to save.");
@@ -156,6 +187,8 @@ function ViewModel() {
 
 		var marker = that.addMarker(that.currentPlace);
 		that.savedPlaces.push({'place': that.currentPlace, 'marker': marker});
+		that.tempMarker.setMap(null);
+		that.searchInput("");
 	};
 
 	this.locateSavedPlace = function(place) {
@@ -173,7 +206,7 @@ function ViewModel() {
 		    	console.log(that.filteredPlaces());
 		    };
 		};
-	}
+	};
 };
 
 // This function is called as a callback on loading the Google Maps API

@@ -70,6 +70,7 @@ function ViewModel() {
 	};
 
 	this.zoomOnPlace = function(place) {
+		console.log(place);
 		// Get the latlng
 		var latlng = place.geometry.location;
 	    

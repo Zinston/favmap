@@ -164,15 +164,11 @@ function ViewModel() {
 	};
 
 	this.filterPlaces = function() {
-		console.log(that.filterString());
 		that.filteredPlaces.removeAll();
 		for (var i = 0; i < that.savedPlaces().length; i++) {
 			var item = that.savedPlaces()[i];
-			var itemName = item.place.name;
-			console.log('place name: ' + item.place.name);
-			console.log('filter string: ' + that.filterString());
-			console.log('result: ' + itemName.indexOf(that.filterString()));
-			if (itemName.indexOf(that.filterString()) >= 0) {
+			var itemName = item.place.name.toLowerCase();
+			if (itemName.indexOf(that.filterString().toLowerCase()) >= 0) {
 		    	that.filteredPlaces.push(item);
 		    	console.log(that.filteredPlaces());
 		    };

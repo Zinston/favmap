@@ -132,12 +132,12 @@ function ViewModel() {
         if (that.largeInfowindow.marker != marker) {
           	that.largeInfowindow.marker = marker;
           	that.largeInfowindow.setContent(content);
-          	that.largeInfowindow.open(that.map, marker);
-          	// Make sure the marker property is cleared if the infowindow is closed.
-          	that.largeInfowindow.addListener('closeclick',function(){
-            	that.largeInfowindow.setMarker = null;
-          	});
         };
+        that.largeInfowindow.open(that.map, marker);
+      	// Make sure the marker property is cleared if the infowindow is closed.
+      	that.largeInfowindow.addListener('closeclick',function(){
+        	that.largeInfowindow.setMarker = null;
+      	});
     };
 
 	this.updateTempMarker = function(marker) {

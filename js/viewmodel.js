@@ -206,8 +206,10 @@ function ViewModel() {
 		that.filteredPlaces.removeAll();
 		for (var i = 0; i < that.savedPlaces().length; i++) {
 			var item = that.savedPlaces()[i];
+			var filter = that.filterString().toLowerCase();
 			var itemName = item.place.name.toLowerCase();
-			if (itemName.indexOf(that.filterString().toLowerCase()) >= 0) {
+			var itemAddress = item.place.formatted_address.toLowerCase();
+			if (itemName.indexOf(filter) >= 0 || itemAddress.indexOf(filter) >= 0) {
 		    	that.filteredPlaces.push(item);
 		    	console.log(that.filteredPlaces());
 		    };

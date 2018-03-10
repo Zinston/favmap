@@ -9,6 +9,7 @@ function ViewModel() {
 	this.largeInfowindow = new google.maps.InfoWindow();
 	this.currentPlace;
 	this.savedPlaces = ko.observableArray();
+	this.filterString = "";
 
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
@@ -150,6 +151,12 @@ function ViewModel() {
 	this.locateSavedPlace = function(place) {
 		that.zoomOnPlace(place.place);
         that.populateInfoWindow(place.marker, place.place);
+	};
+
+	this.filterPlaces = function() {
+		if (that.filterString != "") {
+			console.log("filtering by " + that.filterString);
+		};
 	};
 };
 

@@ -62,10 +62,6 @@ html, body {
 	max-width: 60%;
 }
 
-.sidebar-content {
-	margin-top: 25px;
-}
-
 button.card-header:hover{
 	background-color: white;
 	cursor: pointer;

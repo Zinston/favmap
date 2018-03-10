@@ -46,7 +46,17 @@
         		<h3 class="text-center">Favorites</h3>
         	</div>
 
-        	<div class="sidebar-content">
+        	<div class="sidebar-content mt-4">
+        		<form id="filter-form" data-bind="submit: filterPlaces">
+	        		<div id="filter" class="input-group">
+	        			<input type="text" class="form-control" data-bind="textInput: filterString, event: {keyup: filterPlaces}" placeholder="Filter">
+	        			<span id="filter-button" class="input-group-append">
+			                <button id="filter-btn" type="submit" class="btn btn-primary">
+			                    <i class="fas fa-filter"></i>
+			                </button>
+						</span>
+	        		</div>
+	        	</form>
         		<div id="accordion" data-bind="foreach: savedPlaces">
         			<div class="card">
 				        <button class="card-header" data-toggle="collapse" data-bind="attr: { 'data-target' : '#collapsible' + place.place_id, 'aria-controls': '#collapsible' + place.place_id }, click: $parent.locateSavedPlace">

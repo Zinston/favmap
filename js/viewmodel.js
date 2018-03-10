@@ -41,7 +41,8 @@ function ViewModel() {
 		map = new google.maps.Map(document.getElementById('map'), {
 			center: {lat: 40.7413549, lng: -73.9980244},
 			zoom: 13,
-	        disableDefaultUI: true
+	        disableDefaultUI: true,
+	        maxZoom: 17
 		});
 
 		return map;
@@ -169,9 +170,14 @@ function ViewModel() {
 	};
 
 	this.showFilteredMarkers = function() {
+		var bounds = new google.maps.LatLngBounds();
 		for (var i = 0; i < that.filteredPlaces().length; i++) {
-			that.filteredPlaces()[i].marker.setMap(that.map);
+			var marker = that.filteredPlaces()[i].marker;
+			marker.setMap(that.map);
+			bounds.extend(marker.position);
 		};
+		// Extend the boundaries of the map for each marker
+        that.map.fitBounds(bounds);
 	};
 
 	this.updateMarkers = function() {

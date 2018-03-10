@@ -42,8 +42,9 @@ function ViewModel() {
 		    	that.searchPlace(that.searchInput());
 		    	return;
 		    };
-		    that.zoomOnPlace(places[0]);
-		    that.addMarker(places[0], true);
+		    var place = new Place(places[0]);
+		    that.zoomOnPlace(place);
+		    that.addMarker(place, true);
 		});
 
 		return searchBox;
@@ -61,8 +62,9 @@ function ViewModel() {
             bounds: bounds
         }, function(places, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-                that.zoomOnPlace(places[0]);
-                that.addMarker(places[0], true);
+                var place = new Place(places[0]);
+			    that.zoomOnPlace(place);
+			    that.addMarker(place, true);
             } else {
             	console.log(status);
             };
@@ -72,7 +74,7 @@ function ViewModel() {
 	this.zoomOnPlace = function(place) {
 		console.log(place);
 		// Get the latlng
-		var latlng = place.geometry.location;
+		var latlng = place.location;
 	    
 	    // Center the map on it and zoom
 	    map.setCenter(latlng);
@@ -84,7 +86,7 @@ function ViewModel() {
 
 	// Adds a marker to the map. If temp is True, the marker is temporary.
 	this.addMarker = function(place, temp) {
-		var latlng = place.geometry.location;
+		var latlng = place.location;
 		var formatted_address = place.formatted_address;
 
 		var marker = new google.maps.Marker({
@@ -112,11 +114,13 @@ function ViewModel() {
 			return;
 		};
 
-		var thisPlace = new Place(that.currentPlace);
-		that.savedPlaces.push(thisPlace);
-		that.addMarker(that.currentPlace)
+		that.savedPlaces.push(that.currentPlace);
+		that.addMarker(that.currentPlace);
+	};
 
-		console.log(that.savedPlaces);
+	this.locateSavedPlace = function(place) {
+		that.zoomOnPlace(place);
+		that.addMarker(place, true);
 	};
 };
 

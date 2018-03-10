@@ -49,7 +49,7 @@
         	<div class="sidebar-content">
         		<div id="accordion" data-bind="foreach: savedPlaces">
         			<div class="card">
-				        <button class="card-header" data-toggle="collapse" data-bind="attr: { 'data-target' : '#collapsible' + place_id, 'aria-controls': '#collapsible' + place_id }">
+				        <button class="card-header" data-toggle="collapse" data-bind="attr: { 'data-target' : '#collapsible' + place_id, 'aria-controls': '#collapsible' + place_id }, click: $parent.locateSavedPlace">
 				        	<img width="30px" height="30px" data-bind="attr:{src: icon}" class="float-left">
 				        	<h5 class="mb-0" data-bind="text: name, attr: { 'data-target' : '#collapsible' + place_id, 'aria-controls': '#collapsible' + place_id }">
 					        </h5>

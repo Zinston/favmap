@@ -49,12 +49,10 @@
         	<div class="sidebar-content">
         		<div id="accordion" data-bind="foreach: savedPlaces">
         			<div class="card">
-				        <div class="card-header">
-				        	<h5 class="mb-0">
-				        		<button class="btn btn-link" data-toggle="collapse" data-bind="text: name, attr: { 'data-target' : '#collapsible' + place_id, 'aria-controls': '#collapsible' + place_id }">
-					            </button>
+				        <button class="card-header" data-toggle="collapse" data-bind="attr: { 'data-target' : '#collapsible' + place_id, 'aria-controls': '#collapsible' + place_id }">
+				        	<h5 class="mb-0" data-bind="text: name, attr: { 'data-target' : '#collapsible' + place_id, 'aria-controls': '#collapsible' + place_id }">
 					        </h5>
-				        </div>
+				        </button>
 				        <div data-bind="attr: { id: 'collapsible' + place_id }" class="collapse" data-parent="#accordion">
 					    	<div class="card-body" data-bind="attr: { id: 'collapsible' + place_id }, text: formatted_address"></div>
 					    </div>

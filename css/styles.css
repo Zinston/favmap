@@ -66,6 +66,11 @@ html, body {
 	margin-top: 25px;
 }
 
+button.card-header:hover{
+	background-color: white;
+	cursor: pointer;
+}
+
 .navbar.transparent {
 	border-width: 0px;
     -webkit-box-shadow: 0px 0px;

@@ -6,6 +6,7 @@ function ViewModel() {
 	this.map;
 	this.searchBox;
 	this.tempMarker;
+	this.largeInfowindow = new google.maps.InfoWindow();
 	this.currentPlace;
 	this.savedPlaces = ko.observableArray();
 
@@ -101,34 +102,29 @@ function ViewModel() {
 
 	    var infowindow = that.addInfoWindow(marker, place);
 
-	    var markerWithInfowindow = {'marker': marker, 'infowindow': infowindow};
-
-	    return markerWithInfowindow;
+	    return marker;
 	};
 
 	this.addInfoWindow = function(marker, place) {
-		var largeInfowindow = new google.maps.InfoWindow();
-		that.populateInfoWindow(marker, largeInfowindow, place);
+		that.populateInfoWindow(marker, place);
 
 		marker.addListener('click', function() {
-            largeInfowindow.open(that.map, this);
+            that.largeInfowindow.open(that.map, this);
         });
-
-        return largeInfowindow
 	};
 
-	this.populateInfoWindow = function(marker, infowindow, place) {
+	this.populateInfoWindow = function(marker, place) {
 		var content = '<h5>' + place.name + '</h5>';
 		content += '<em>' + place.type + '</em><br><br>';
 		content += place.html_address;
         // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != marker) {
-          	infowindow.marker = marker;
-          	infowindow.setContent(content);
-          	infowindow.open(that.map, marker);
+        if (that.largeInfowindow.marker != marker) {
+          	that.largeInfowindow.marker = marker;
+          	that.largeInfowindow.setContent(content);
+          	that.largeInfowindow.open(that.map, marker);
           	// Make sure the marker property is cleared if the infowindow is closed.
-          	infowindow.addListener('closeclick',function(){
-            	infowindow.setMarker = null;
+          	that.largeInfowindow.addListener('closeclick',function(){
+            	that.largeInfowindow.setMarker = null;
           	});
         };
     };
@@ -147,13 +143,13 @@ function ViewModel() {
 			return;
 		};
 
-		var markerWithInfowindow = that.addMarker(that.currentPlace);
-		that.savedPlaces.push({'place': that.currentPlace, 'marker': markerWithInfowindow.marker, 'infowindow': markerWithInfowindow.infowindow});
+		var marker = that.addMarker(that.currentPlace);
+		that.savedPlaces.push({'place': that.currentPlace, 'marker': marker});
 	};
 
 	this.locateSavedPlace = function(place) {
 		that.zoomOnPlace(place.place);
-		place.infowindow.open(that.map, place.marker);
+        that.populateInfoWindow(place.marker, place.place);
 	};
 };
 

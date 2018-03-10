@@ -18,63 +18,37 @@
 	</head>
 
 	<body>
-		<!--<nav class="navbar fixed-top transparent">
-			<button id="sidebarCollapse" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-		    	<i class="fas fa-bars"></i>
-		    </button>
-
-		    <div class="navbar-item">
-			    <form class="mx-2 my-auto form-inline w-100" data-bind="submit: searchPlace">
-					<input id="places-search" data-bind="textInput: searchInput" class="front-searchbox form-control mb-xs-2 mr-2" type="text" placeholder="Name of the place">
-					<input id="front-search-btn" type="submit" class="btn btn-info mr-2" value="Go">
-					<button id="front-add-btn" type="button" class="btn btn-danger" data-bind="click: savePlace">Save</button>
-				</form>
-			</div>
-		</nav>-->
-
-		<nav class="navbar fixed-top transparent">
+		<!-- Top navbar -->
+		<nav id="top-navbar" class="navbar fixed-top transparent">
 		    <form class="mx-2 my-auto d-inline w-100">
-	            <div class="input-group">
-	            	<button id="sidebarCollapse" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-				    	<i class="fas fa-bars"></i>
+	            <div class="input-group justify-content-center">
+	            	<button id="hamburger-button" class="sidebar-collapse btn btn-secondary mr-2" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				    	<i class="fas fa-bars fa-lg"></i>
 				    </button>
-	                <input id="places-search" data-bind="textInput: searchInput" type="text" class="form-control border border-right-0" placeholder="Search...">
-	                <span class="input-group-append mr-2">
-		                <button id="front-search-btn" type="submit" class="btn btn-outline-secondary border border-left-0">
+	                <input id="places-search" data-bind="textInput: searchInput" type="text" class="form-control" placeholder="Search...">
+	                <span id="search-button" class="input-group-append mr-2">
+		                <button id="front-search-btn" type="submit" class="btn btn-info">
 		                    <i class="fa fa-search"></i>
 		                </button>
 					</span>
-					<button id="front-add-btn" type="button" class="btn btn-danger" data-bind="click: savePlace">Save</button>
+					<button id="front-add-btn" type="button" class="btn btn-warning" data-bind="click: savePlace">
+						<i id="fav-button-icon" class="fas fa-star text-white"></i>
+					</button>
 	            </div>
 	        </form>
 		</nav>
-
-		<!--<div class="front-controls">
-			<div class="row">
-				<div class="col-lg-1 col-xs-3 text-left">
-					<button id="sidebarCollapse" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-				    	<i class="fas fa-bars"></i>
-				    </button>
-				</div>
-				<div class="col-lg-11 col-xs-9">
-					<form class="searchbox-form form-inline" data-bind="submit: searchPlace">
-						<input id="places-search" data-bind="textInput: searchInput" class="front-searchbox form-control" type="text" placeholder="Name of the place">
-						<input id="front-search-btn" type="submit" class="btn btn-info" value="Go">
-						<button id="front-add-btn" type="button" class="btn btn-danger" data-bind="click: savePlace">Save</button>
-					</form>
-				</div>
-			</div>
-		</div>-->
+		<!-- End top navbar -->
 
 		<!-- Sidebar -->
 		<nav id="sidebar">
-        	<div class="sidebar-header">
-        		<h3>Your favorite places</h3>
+			<a class="sidebar-collapse btn float-left"><i class="fas fa-times"></i></a>
+        	<div class="sidebar-header mt-3">
+        		<h3 class="text-center">Favorites</h3>
         	</div>
 	    </nav>
 	    <!-- End sidebar -->
 
-		<div id="map"></div>
+	    <div id="map"></div>
 
 		<script async defer
 	        src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCTwor9YNahCVHkPbpH5Mzz2-NG2NUEGlM&v=3&callback=init">

@@ -9,22 +9,57 @@ html, body {
 	height: 100%;
 }
 
-#sidebarCollapse {
-	margin-right: 10px;
+#top-navbar {
+	transition: margin-left .5s;
+}
+
+#top-navbar.push-right {
+	margin-left: 300px;
+}
+
+@media screen and (max-width: 500px) {
+    #top-navbar.push-right {
+		margin-left: 60%;
+	}
+
+	#top-navbar.push-right #hamburger-button {
+		display: none;
+	}
+
+	#top-navbar.push-right #search-button, #top-navbar.push-right #front-add-btn { 
+		margin-top: 5px;
+	}
+
+	#top-navbar.push-right #front-search-btn {
+		border-radius: .25rem;
+	}
+}
+
+#places-search {
+	min-width: 100px;
+}
+
+/* The suggestions from the SearchBox */
+.pac-container {
+	z-index: 100000;
 }
 
 #sidebar {
-	display: none;
-	float: left;
-	width: 0;
 	height: 100%;
-	padding-top: 50px;
-	padding-left: 10px;
+    width: 0;
+    position: fixed;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
 }
 
 #sidebar.active {
 	display: block;
 	width: 300px;
+	max-width: 60%;
 }
 
 .navbar.transparent {

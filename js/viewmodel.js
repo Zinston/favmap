@@ -91,7 +91,7 @@ function ViewModel() {
 
 		var marker = new google.maps.Marker({
 			position: latlng,
-			map: map,
+			map: that.map,
 			title: place.name
         });
 
@@ -99,15 +99,22 @@ function ViewModel() {
 	        that.updateTempMarker(marker);
 	    };
 
-	    that.addInfoWindow(marker, place);
+	    var infowindow = that.addInfoWindow(marker, place);
+
+	    var markerWithInfowindow = {'marker': marker, 'infowindow': infowindow};
+
+	    return markerWithInfowindow;
 	};
 
 	this.addInfoWindow = function(marker, place) {
 		var largeInfowindow = new google.maps.InfoWindow();
+		that.populateInfoWindow(marker, largeInfowindow, place);
 
 		marker.addListener('click', function() {
-            that.populateInfoWindow(this, largeInfowindow, place);
+            largeInfowindow.open(that.map, this);
         });
+
+        return largeInfowindow
 	};
 
 	this.populateInfoWindow = function(marker, infowindow, place) {
@@ -137,12 +144,13 @@ function ViewModel() {
 			return;
 		};
 
-		that.savedPlaces.push(that.currentPlace);
-		that.addMarker(that.currentPlace);
+		var markerWithInfowindow = that.addMarker(that.currentPlace);
+		that.savedPlaces.push({'place': that.currentPlace, 'marker': markerWithInfowindow.marker, 'infowindow': markerWithInfowindow.infowindow});
 	};
 
 	this.locateSavedPlace = function(place) {
-		that.zoomOnPlace(place);
+		that.zoomOnPlace(place.place);
+		place.infowindow.open(that.map, place.marker);
 	};
 };
 

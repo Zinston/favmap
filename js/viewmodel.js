@@ -3,14 +3,16 @@ function ViewModel() {
 
 	this.searchInput = ko.observable("");
 	this.filterString = ko.observable("");
-	this.toast = ko.observable("");
+	this.toast = ko.observable({type: "info", message: ""}); // Accepts types info, error and success
 
 	this.toast.subscribe(function() {
+		$('#toast').toggleClass(that.toast().type);
 		$('#toast').toggleClass('show');
 
 	    // After 3 seconds, remove the show class from DIV
 	    setTimeout(function() {
 	    	$('#toast').toggleClass('show');
+	    	$('#toast').toggleClass(that.toast().type);
 	    }, 3000);
 	})
 
@@ -84,7 +86,7 @@ function ViewModel() {
 		// Get the place
 	    var places = that.searchBox.getPlaces();
 	    if (places.length == 0) {
-	    	that.toast("Error: Couldn't find a place.");
+	    	that.toast({type: "error", message: "Error: Couldn't find a place."});
 	    	return;
 	    };
 	    var place = new Place(places[0]);
@@ -181,7 +183,7 @@ function ViewModel() {
 	this.savePlace = function() {
 		if (!that.currentPlace) {
 			console.log("Error: there is no place to save.");
-			that.toast("Error: there is no place to save.");
+			that.toast({type: "error", message: "Error: there is no place to save."});
 			return;
 		};
 

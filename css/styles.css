@@ -103,6 +103,26 @@ button.card-header:hover{
     bottom: 30px; /* 30px from the bottom */
 }
 
+/* this part is mine though */
+#toast.error {
+	color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+#toast.info {
+	color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+#toast.success {
+	color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+/* back to W3Schools code */
 #toast.show {
 	display: block;
 	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;

@@ -42,6 +42,7 @@ function ViewModel() {
 		    	that.searchPlace(that.searchInput());
 		    	return;
 		    };
+		    console.log(places[0]);
 		    var place = new Place(places[0]);
 		    that.zoomOnPlace(place);
 		    that.addMarker(place, true);
@@ -72,7 +73,6 @@ function ViewModel() {
 	};
 
 	this.zoomOnPlace = function(place) {
-		console.log(place);
 		// Get the latlng
 		var latlng = place.location;
 	    
@@ -118,10 +118,13 @@ function ViewModel() {
 	};
 
 	this.populateInfoWindow = function(marker, infowindow, place) {
+		var content = '<h5>' + place.name + '</h5>';
+		content += '<em>' + place.type + '</em><br><br>';
+		content += place.html_address;
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
           	infowindow.marker = marker;
-          	infowindow.setContent('<h5>' + place.name + '</h5>' + place.formatted_address);
+          	infowindow.setContent(content);
           	infowindow.open(that.map, marker);
           	// Make sure the marker property is cleared if the infowindow is closed.
           	infowindow.addListener('closeclick',function(){

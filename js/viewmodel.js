@@ -209,7 +209,6 @@ function ViewModel() {
 	};
 
 	this.populateInfoWindow = function(marker, place) {
-		console.log(place);
 		var content = '<div class="infowindow">';
 		content += '<h5 class="infowindow-header">';
 		content += '<img width="20px" height="20px" src="';
@@ -305,7 +304,9 @@ function ViewModel() {
 			var filter = that.filterString().toLowerCase();
 			var itemName = item.place.name.toLowerCase();
 			var itemAddress = item.place.formatted_address.toLowerCase();
-			if (itemName.indexOf(filter) >= 0 || itemAddress.indexOf(filter) >= 0) {
+			var itemType = item.place.type.toLowerCase() || "";
+			var itemPhone = item.place.international_phone_number || "";
+			if (itemName.indexOf(filter) >= 0 || itemAddress.indexOf(filter) >= 0 || itemType.indexOf(filter) >= 0 || itemPhone.indexOf(filter) >= 0) {
 		    	that.filteredPlaces.push(item);
 		    };
 		};

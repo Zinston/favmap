@@ -238,10 +238,15 @@ function ViewModel() {
 		if (place.photos) {
             content += '<br><br><img src="'
             content += place.photos[0].getUrl( {maxHeight: 100, maxWidth: 200} )
-            content += '"><br>';
+            content += '">';
         };
-        content += '<button id="home-btn-' + place.place_id;
-        content += '" class="btn btn-secondary btn-sm mt-2">Home</button>';
+        content += '<br><button id="home-btn-' + place.place_id;
+        content += '" class="btn btn-secondary btn-sm mt-2 mr-2">Home</button>';
+
+        content += '<button id="fav-btn-' + place.place_id;
+        content += '" class="btn btn-warning btn-sm mt-2">';
+        content += '<i class="fas fa-star text-white"></i>';
+        content += '</button>';
 		content += '</div>';
 
         // Check to make sure the infowindow is not already opened on this marker.
@@ -255,10 +260,13 @@ function ViewModel() {
         	that.largeInfowindow.setMarker = null;
       	});
 
-      	// Add a listener on the home button, now the infowindow is in the DOM
+      	// Add a listener on the buttons, now the infowindow is in the DOM
       	$('#home-btn-' + place.place_id).click(function() {
 			that.makeHome(place);
 		});
+		$('#fav-btn-' + place.place_id).click(function() {
+			that.savePlace(place);
+		})
     };
 
 	this.updateTempMarker = function(marker) {
@@ -285,8 +293,10 @@ function ViewModel() {
 			};
 			// If the user set a home address, extend the boundaries
 			// of the map to show it too.
-			if (that.home().marker) {
-				bounds.extend(that.home().marker.position);
+			if (that.home()) {
+				if (that.home().marker) {
+					bounds.extend(that.home().marker.position);
+				};
 			};
 			// Extend the boundaries of the map for each marker
 	        that.map.fitBounds(bounds);
@@ -298,11 +308,14 @@ function ViewModel() {
 		that.showFilteredMarkers();
 	};
 
-	this.savePlace = function() {
-		console.log(that.currentPlace);
-		if (!that.currentPlace) {
+	this.savePlace = function(place) {
+		if (!place) {
+			if (!that.currentPlace) {
 			that.toast({type: "error", message: "Error: there is no place to save."});
 			return;
+			};
+
+			var place = that.currentPlace;
 		};
 
 		var marker = that.addMarker(that.currentPlace, 'favorite');

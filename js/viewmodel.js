@@ -309,10 +309,11 @@ function ViewModel() {
 	};
 
 	this.savePlace = function(place) {
-		if (!place) {
+		if (!place.name) {
 			if (!that.currentPlace) {
-			that.toast({type: "error", message: "Error: there is no place to save."});
-			return;
+				console.log('no current place');
+				that.toast({type: "error", message: "Error: there is no place to save."});
+				return;
 			};
 
 			var place = that.currentPlace;

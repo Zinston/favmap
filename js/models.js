@@ -9,7 +9,7 @@ var Place = function(place) {
 	this.formatted_address = place.formatted_address;
 	this.international_phone_number = place.international_phone_number;
 
-	//this.photos = place.photos;
+	this.photos = place.photos;
 	this.price_level = place.price_level;
 	this.rating = place.rating;
 	this.website = place.website;

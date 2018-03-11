@@ -209,6 +209,7 @@ function ViewModel() {
 	};
 
 	this.populateInfoWindow = function(marker, place) {
+		console.log(place);
 		var content = '<div class="infowindow">';
 		content += '<h5 class="infowindow-header">';
 		content += '<img width="20px" height="20px" src="';
@@ -224,6 +225,11 @@ function ViewModel() {
 		};
 		content += place.type + '</p>';
 		content += place.formatted_address;
+		if (place.photos) {
+            content += '<br><br><img src="'
+            content += place.photos[0].getUrl( {maxHeight: 100, maxWidth: 200} )
+            content += '">';
+        };
 		content += '</div>';
         // Check to make sure the infowindow is not already opened on this marker.
         if (that.largeInfowindow.marker != marker) {

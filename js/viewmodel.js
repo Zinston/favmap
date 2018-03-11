@@ -201,14 +201,16 @@ function ViewModel() {
 	};
 
 	this.showFilteredMarkers = function() {
-		var bounds = new google.maps.LatLngBounds();
-		for (var i = 0; i < that.filteredPlaces().length; i++) {
-			var marker = that.filteredPlaces()[i].marker;
-			marker.setMap(that.map);
-			bounds.extend(marker.position);
-		};
-		// Extend the boundaries of the map for each marker
-        that.map.fitBounds(bounds);
+		if (that.filteredPlaces().length > 0) {
+			var bounds = new google.maps.LatLngBounds();
+			for (var i = 0; i < that.filteredPlaces().length; i++) {
+				var marker = that.filteredPlaces()[i].marker;
+				marker.setMap(that.map);
+				bounds.extend(marker.position);
+			};
+			// Extend the boundaries of the map for each marker
+	        that.map.fitBounds(bounds);
+	    };
 	};
 
 	this.updateMarkers = function() {

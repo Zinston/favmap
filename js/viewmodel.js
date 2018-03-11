@@ -171,9 +171,22 @@ function ViewModel() {
 	};
 
 	this.populateInfoWindow = function(marker, place) {
-		var content = '<h5>' + place.name + '</h5>';
-		content += '<em>' + place.type + '</em><br><br>';
+		var content = '<div class="infowindow">';
+		content += '<h5 class="infowindow-header">';
+		content += '<img width="20px" height="20px" src="';
+		content += place.icon + '" class="float-left">';
+		content += place.name + '</h5>';
+		content += '<p class="infowindow-subtitle">';
+		if (place.price_level) {
+			content += '<span class="float-left">';
+			for (var i = 0; i < place.price_level; i++) {
+				content += '<i class="fa fa-dollar-sign"></i>';
+			};
+			content += '</span>';
+		};
+		content += place.type + '</p>';
 		content += place.formatted_address;
+		content += '</div>';
         // Check to make sure the infowindow is not already opened on this marker.
         if (that.largeInfowindow.marker != marker) {
           	that.largeInfowindow.marker = marker;

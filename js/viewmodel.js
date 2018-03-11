@@ -120,9 +120,7 @@ function ViewModel() {
             	if (places.length == 0) {
 			    	that.toast({type: "error", message: "Error: Couldn't find a place."});
 			    } else {
-			    	var place = new Place(places[0]);
-				    that.zoomOnPlace(place);
-				    that.addMarker(place, true);
+			    	that.getPlaceDetails(places[0]);
 			    };
           	} else {
           		var message = "Error: Couldn't get the info from Google... ";
@@ -142,6 +140,24 @@ function ViewModel() {
 		    that.zoomOnPlace(place);
 		    that.addMarker(place, true);
 	    };
+	};
+
+	this.getPlaceDetails = function(place) {
+		var placesService = new google.maps.places.PlacesService(that.map);
+
+		placesService.getDetails({
+        	placeId: place.place_id
+        }, function(place, status) {
+          	if (status === google.maps.places.PlacesServiceStatus.OK) {
+            	var place = new Place(place);
+			    that.zoomOnPlace(place);
+			    that.addMarker(place, true);
+            } else {
+            	var message = "Error: Couldn't get the info from Google... ";
+          		message += "Test your Internet connexion and try again.";
+          		that.toast({type: "error", message: message});
+            };
+        });
 	};
 
 	this.zoomOnPlace = function(place) {

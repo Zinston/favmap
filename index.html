@@ -57,50 +57,97 @@
 						</span>
 	        		</div>
 	        	</form>
-        		<div id="accordion" data-bind="foreach: filteredPlaces">
-        			<div class="card">
-				        <button class="card-header" data-toggle="collapse" data-bind="attr: { 'data-target' : '#collapsible' + place.place_id, 'aria-controls': '#collapsible' + place.place_id }, click: $parent.locateSavedPlace">
-				        	<img width="20px" height="20px" data-bind="attr:{src: place.icon}" class="float-left">
-				        	<h5 class="mb-0" data-bind="text: place.name, attr: { 'data-target' : '#collapsible' + place.place_id, 'aria-controls': '#collapsible' + place.place_id }">
-					        </h5>
-				        </button>
-				        <div data-bind="attr: { id: 'collapsible' + place.place_id }" class="collapse" data-parent="#accordion">
-					    	<div class="card-body" data-bind="attr: { id: 'collapsible' + place.place_id }">
-					    		<table class="table table-sm table-hover favorite-place-details">
-					    			<tbody>
-					    				<tr>
-					    					<th scope="row">
-					    						<i class="fa fa-envelope"></i>
-					    					</th>
-					    					<td data-bind="text: place.formatted_address"></td>
-					    				</tr>
-					    				<tr data-bind="if: place.international_phone_number">
-					    					<th scope="row">
-					    						<i class="fa fa-phone-square"></i>
-					    					</th>
-					    					<td data-bind="text: place.international_phone_number"></td>
-					    				</tr>
-					    				<tr data-bind="if: place.website">
-					    					<th scope="row">
-					    						<i class="fa fa-globe"></i>
-					    					</th>
-					    					<td><a data-bind="attr: {href: place.website}" target="_blank">Website</a></td>
-					    				</tr>
-					    				<tr data-bind="if: place.openingHours">
-					    					<th scope="row">
-					    						<i class="fa fa-shopping-cart"></i>
-					    					</th>
-					    					<td>
-					    						<ul data-bind="foreach: place.openingHours" class="opening-hours">
-					    							<li data-bind="text: $data"></li>
-					    						</ul>
-					    					</td>
-					    				</tr>
-					    			</tbody>
-					    		</table>
-					    	</div>
+
+        		<div id="accordion">
+        			<div id="home-card" class="card" data-bind="if: home">
+        				<button class="card-header" data-toggle="collapse" data-bind="attr: { 'data-target' : '#collapsible-home', 'aria-controls': '#collapsible-home' }, click: locateHome">
+					        	<span class="home-icon"><i class="fa fa-home float-left"></i></span>
+					        	<h5 class="mb-0" data-bind="text: home().place.name, attr: { 'data-target' : '#collapsible' + home().place.place_id, 'aria-controls': '#collapsible' + home().place.place_id }">
+						        </h5>
+					        </button>
+					        <div data-bind="attr: { id: 'collapsible-home' }" class="collapse" data-parent="#accordion">
+						    	<div class="card-body" data-bind="attr: { id: 'collapsible-home' }">
+						    		<table class="table table-sm table-hover favorite-place-details">
+						    			<tbody>
+						    				<tr>
+						    					<th scope="row">
+						    						<i class="fa fa-envelope"></i>
+						    					</th>
+						    					<td data-bind="text: home().place.formatted_address"></td>
+						    				</tr>
+						    				<tr data-bind="if: home().place.international_phone_number">
+						    					<th scope="row">
+						    						<i class="fa fa-phone-square"></i>
+						    					</th>
+						    					<td data-bind="text: home().place.international_phone_number"></td>
+						    				</tr>
+						    				<tr data-bind="if: home().place.website">
+						    					<th scope="row">
+						    						<i class="fa fa-globe"></i>
+						    					</th>
+						    					<td><a data-bind="attr: {href: home().place.website}" target="_blank">Website</a></td>
+						    				</tr>
+						    				<tr data-bind="if: home().place.openingHours">
+						    					<th scope="row">
+						    						<i class="fa fa-shopping-cart"></i>
+						    					</th>
+						    					<td>
+						    						<ul data-bind="foreach: home().place.openingHours" class="opening-hours">
+						    							<li data-bind="text: $data"></li>
+						    						</ul>
+						    					</td>
+						    				</tr>
+						    			</tbody>
+						    		</table>
+						    	</div>
+						    </div>
 					    </div>
-				    </div>
+        			</div>
+        			<div id="favorite-places-list" data-bind="foreach: filteredPlaces">
+	        			<div class="card">
+					        <button class="card-header" data-toggle="collapse" data-bind="attr: { 'data-target' : '#collapsible' + place.place_id, 'aria-controls': '#collapsible' + place.place_id }, click: $parent.locateSavedPlace">
+					        	<img width="20px" height="20px" data-bind="attr:{src: place.icon}" class="float-left">
+					        	<h5 class="mb-0" data-bind="text: place.name, attr: { 'data-target' : '#collapsible' + place.place_id, 'aria-controls': '#collapsible' + place.place_id }">
+						        </h5>
+					        </button>
+					        <div data-bind="attr: { id: 'collapsible' + place.place_id }" class="collapse" data-parent="#accordion">
+						    	<div class="card-body" data-bind="attr: { id: 'collapsible' + place.place_id }">
+						    		<table class="table table-sm table-hover favorite-place-details">
+						    			<tbody>
+						    				<tr>
+						    					<th scope="row">
+						    						<i class="fa fa-envelope"></i>
+						    					</th>
+						    					<td data-bind="text: place.formatted_address"></td>
+						    				</tr>
+						    				<tr data-bind="if: place.international_phone_number">
+						    					<th scope="row">
+						    						<i class="fa fa-phone-square"></i>
+						    					</th>
+						    					<td data-bind="text: place.international_phone_number"></td>
+						    				</tr>
+						    				<tr data-bind="if: place.website">
+						    					<th scope="row">
+						    						<i class="fa fa-globe"></i>
+						    					</th>
+						    					<td><a data-bind="attr: {href: place.website}" target="_blank">Website</a></td>
+						    				</tr>
+						    				<tr data-bind="if: place.openingHours">
+						    					<th scope="row">
+						    						<i class="fa fa-shopping-cart"></i>
+						    					</th>
+						    					<td>
+						    						<ul data-bind="foreach: place.openingHours" class="opening-hours">
+						    							<li data-bind="text: $data"></li>
+						    						</ul>
+						    					</td>
+						    				</tr>
+						    			</tbody>
+						    		</table>
+						    	</div>
+						    </div>
+					    </div>
+					</div>
 				</div>
         	</div>
 	    </nav>

@@ -77,6 +77,10 @@ button.card-header:hover{
 	cursor: pointer;
 }
 
+.home-icon {
+	color: #6b7be3;
+}
+
 .favorite-place-details {
 	margin: 0;
 }

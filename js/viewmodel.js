@@ -26,7 +26,7 @@ function ViewModel() {
 	this.homeIcon;
 
 	this.currentPlace;
-	this.home;
+	this.home = ko.observable();
 
 	this.savedPlaces = ko.observableArray();
 	// Add saved places from local storage
@@ -312,6 +312,11 @@ function ViewModel() {
         that.populateInfoWindow(place.marker, place.place);
 	};
 
+	this.locateHome = function() {
+		that.zoomOnPlace(that.home().place);
+		that.populateInfoWindow(that.home().marker, that.home().place);
+	};
+
 	this.filterPlaces = function() {
 		that.filteredPlaces.removeAll();
 		for (var i = 0; i < that.savedPlaces().length; i++) {
@@ -328,14 +333,14 @@ function ViewModel() {
 	};
 
 	this.makeHome = function(place) {
-		if (that.home) {
-			if (that.home.marker) {
-				that.home.marker.setMap(null);
+		if (that.home()) {
+			if (that.home().marker) {
+				that.home().marker.setMap(null);
 			};
 		};
-		that.home = {place: place};
-		var marker = that.addMarker(that.home.place, 'home');
-		that.home.marker = marker;
+		
+		var marker = that.addMarker(place, 'home');
+		that.home({place: place, marker: marker});
 	};
 };
 

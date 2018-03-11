@@ -25,6 +25,7 @@ function ViewModel() {
 	this.savedIcon;
 
 	this.currentPlace;
+	this.home;
 
 	this.savedPlaces = ko.observableArray();
 	// Add saved places from local storage
@@ -232,9 +233,12 @@ function ViewModel() {
 		if (place.photos) {
             content += '<br><br><img src="'
             content += place.photos[0].getUrl( {maxHeight: 100, maxWidth: 200} )
-            content += '">';
+            content += '"><br>';
         };
+        content += '<button id="home-btn-' + place.place_id;
+        content += '" class="btn btn-secondary btn-sm mt-2">Home</button>';
 		content += '</div>';
+
         // Check to make sure the infowindow is not already opened on this marker.
         if (that.largeInfowindow.marker != marker) {
           	that.largeInfowindow.marker = marker;
@@ -245,6 +249,11 @@ function ViewModel() {
       	that.largeInfowindow.addListener('closeclick',function(){
         	that.largeInfowindow.setMarker = null;
       	});
+
+      	// Add a listener on the home button, now the infowindow is in the DOM
+      	$('#home-btn-' + place.place_id).click(function() {
+			that.makeHome(place);
+		});
     };
 
 	this.updateTempMarker = function(marker) {
@@ -280,6 +289,7 @@ function ViewModel() {
 	};
 
 	this.savePlace = function() {
+		console.log(that.currentPlace);
 		if (!that.currentPlace) {
 			that.toast({type: "error", message: "Error: there is no place to save."});
 			return;
@@ -310,6 +320,11 @@ function ViewModel() {
 		    	that.filteredPlaces.push(item);
 		    };
 		};
+	};
+
+	this.makeHome = function(place) {
+		that.home = place;
+		console.log(that.home);
 	};
 };
 

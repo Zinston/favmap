@@ -22,7 +22,8 @@ function ViewModel() {
 	this.tempMarker;
 	this.largeInfowindow = new google.maps.InfoWindow();
 	this.defaultIcon;
-	this.savedIcon;
+	this.favoriteIcon;
+	this.homeIcon;
 
 	this.currentPlace;
 	this.home;
@@ -106,6 +107,7 @@ function ViewModel() {
 	this.initSearchbox();
 	this.defaultIcon = this.makeMarkerIcon('f75850');
 	this.savedIcon = this.makeMarkerIcon('ffc107');
+	this.homeIcon = this.makeMarkerIcon('6b7be3');
 
 	/* END INITIALIZATION */
 
@@ -139,7 +141,7 @@ function ViewModel() {
 	    } else {
 	    	var place = new Place(places[0]);
 		    that.zoomOnPlace(place);
-		    that.addMarker(place, true);
+		    that.addMarker(place);
 	    };
 	};
 
@@ -152,7 +154,7 @@ function ViewModel() {
           	if (status === google.maps.places.PlacesServiceStatus.OK) {
             	var place = new Place(place);
 			    that.zoomOnPlace(place);
-			    that.addMarker(place, true);
+			    that.addMarker(place);
             } else {
             	var message = "Error: Couldn't get the info from Google... ";
           		message += "Test your Internet connexion and try again.";
@@ -174,15 +176,18 @@ function ViewModel() {
 	};
 
 	// Adds a marker to the map. If temp is true, the marker is temporary.
-	this.addMarker = function(place, temp) {
+	this.addMarker = function(place, type) {
 		var latlng = place.location;
 		var formatted_address = place.formatted_address;
 
-		if (temp) {
-			var icon = that.defaultIcon;
+		if (type == 'favorite') {
+			var icon = that.favoriteIcon;
+		} else if (type == 'home') {
+			var icon = that.homeIcon;
 		} else {
-			var icon = that.savedIcon;
-		}
+			var icon = that.defaultIcon;
+			var temp = true;
+		};
 
 		var marker = new google.maps.Marker({
 			position: latlng,
@@ -295,7 +300,7 @@ function ViewModel() {
 			return;
 		};
 
-		var marker = that.addMarker(that.currentPlace);
+		var marker = that.addMarker(that.currentPlace, 'favorite');
 		that.savedPlaces.push({'place': that.currentPlace, 'marker': marker});
 		that.tempMarker.setMap(null);
 		that.searchInput("");
@@ -323,8 +328,14 @@ function ViewModel() {
 	};
 
 	this.makeHome = function(place) {
-		that.home = place;
-		console.log(that.home);
+		if (that.home) {
+			if (that.home.marker) {
+				that.home.marker.setMap(null);
+			};
+		};
+		that.home = {place: place};
+		var marker = that.addMarker(that.home.place, 'home');
+		that.home.marker = marker;
 	};
 };
 

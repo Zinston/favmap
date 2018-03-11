@@ -78,9 +78,10 @@ function ViewModel() {
 	    // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
 	    google.maps.event.addListener(that.searchBox, 'places_changed', function () {
-	    	that.searchPlace();
 	    	// Trigger an input event on the searchBox so KO updates the value
-		    //ko.utils.triggerEvent(searchElem, "input");
+		    ko.utils.triggerEvent(searchElem, "input");
+		    // Search the place
+	    	that.searchPlace();
 		});
 	};
 
@@ -108,18 +109,27 @@ function ViewModel() {
 	/* END INITIALIZATION */
 
 	this.searchPlace = function() {
-		// Get the places
-	    var places = that.searchBox.getPlaces();
-	    console.log(places);
-
-	    if (places.length == 0) {
-	    	that.toast({type: "error", message: "Error: Couldn't find a place."});
-	    	return;
-	    };
-
-	    var place = new Place(places[0]);
-	    that.zoomOnPlace(place);
-	    that.addMarker(place, true);
+		var bounds = that.map.getBounds();
+        var placesService = new google.maps.places.PlacesService(that.map);
+        
+        placesService.textSearch({
+          	query: that.searchInput(),
+          	bounds: bounds
+        }, function(places, status) {
+          	if (status === google.maps.places.PlacesServiceStatus.OK) {
+            	if (places.length == 0) {
+			    	that.toast({type: "error", message: "Error: Couldn't find a place."});
+			    } else {
+			    	var place = new Place(places[0]);
+				    that.zoomOnPlace(place);
+				    that.addMarker(place, true);
+			    }
+          	} else {
+          		var message = "Error: Couldn't get the info from Google... ";
+          		message += "Test your Internet connexion and try again.";
+          		that.toast({type: "error", message: message});
+          	};
+        });
 	};
 
 	this.zoomOnPlace = function(place) {
@@ -134,7 +144,7 @@ function ViewModel() {
 	    that.currentPlace = place;
 	};
 
-	// Adds a marker to the map. If temp is True, the marker is temporary.
+	// Adds a marker to the map. If temp is true, the marker is temporary.
 	this.addMarker = function(place, temp) {
 		var latlng = place.location;
 		var formatted_address = place.formatted_address;

@@ -21,6 +21,9 @@ function ViewModel() {
 
 	this.tempMarker;
 	this.largeInfowindow = new google.maps.InfoWindow();
+	this.defaultIcon;
+	this.savedIcon;
+
 	this.currentPlace;
 
 	this.savedPlaces = ko.observableArray();
@@ -48,6 +51,7 @@ function ViewModel() {
 		that.updateMarkers();
 	});
 
+	/* INITIALIZATION */
 
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
@@ -71,7 +75,8 @@ function ViewModel() {
 	    	that.searchBox.setBounds(that.map.getBounds());
 	    });
 
-	    // When selecting a place suggested by Google...
+	    // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
 	    google.maps.event.addListener(that.searchBox, 'places_changed', function () {
 	    	that.searchPlace();
 	    	// Trigger an input event on the searchBox so KO updates the value
@@ -79,16 +84,39 @@ function ViewModel() {
 		});
 	};
 
+	// From Udacity course.
+	// This function takes in a COLOR, and then creates a new marker
+    // icon of that color. The icon will be 21 px wide by 34 high, have an origin
+    // of 0, 0 and be anchored at 10, 34).
+    this.makeMarkerIcon = function(markerColor) {
+    	var markerImage = new google.maps.MarkerImage(
+          	'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColor +
+          	'|40|_|%E2%80%A2',
+          	new google.maps.Size(21, 34),
+          	new google.maps.Point(0, 0),
+          	new google.maps.Point(10, 34),
+          	new google.maps.Size(21,34)
+        );
+        return markerImage;
+    };
+
 	this.initMap();
 	this.initSearchbox();
+	this.defaultIcon = this.makeMarkerIcon('f75850');
+	this.savedIcon = this.makeMarkerIcon('ffc107');
+
+	/* END INITIALIZATION */
 
 	this.searchPlace = function() {
-		// Get the place
+		// Get the places
 	    var places = that.searchBox.getPlaces();
+	    console.log(places);
+
 	    if (places.length == 0) {
 	    	that.toast({type: "error", message: "Error: Couldn't find a place."});
 	    	return;
 	    };
+
 	    var place = new Place(places[0]);
 	    that.zoomOnPlace(place);
 	    that.addMarker(place, true);
@@ -111,10 +139,18 @@ function ViewModel() {
 		var latlng = place.location;
 		var formatted_address = place.formatted_address;
 
+		if (temp) {
+			var icon = that.defaultIcon;
+		} else {
+			var icon = that.savedIcon;
+		}
+
 		var marker = new google.maps.Marker({
 			position: latlng,
 			map: that.map,
-			title: place.name
+			title: place.name,
+            animation: google.maps.Animation.DROP,
+            icon: icon
         });
 
 		if (temp) {

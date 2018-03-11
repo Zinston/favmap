@@ -81,7 +81,7 @@ function ViewModel() {
 	    	// Trigger an input event on the searchBox so KO updates the value
 		    ko.utils.triggerEvent(searchElem, "input");
 		    // Search the place
-	    	that.searchPlace();
+	    	that.searchBoxPlace();
 		});
 	};
 
@@ -123,13 +123,25 @@ function ViewModel() {
 			    	var place = new Place(places[0]);
 				    that.zoomOnPlace(place);
 				    that.addMarker(place, true);
-			    }
+			    };
           	} else {
           		var message = "Error: Couldn't get the info from Google... ";
           		message += "Test your Internet connexion and try again.";
           		that.toast({type: "error", message: message});
           	};
         });
+	};
+
+	this.searchBoxPlace = function() {
+		var places = that.searchBox.getPlaces();
+        
+        if (places.length == 0) {
+	    	that.toast({type: "error", message: "Error: Couldn't find a place."});
+	    } else {
+	    	var place = new Place(places[0]);
+		    that.zoomOnPlace(place);
+		    that.addMarker(place, true);
+	    };
 	};
 
 	this.zoomOnPlace = function(place) {
@@ -270,11 +282,6 @@ function ViewModel() {
 		    	that.filteredPlaces.push(item);
 		    };
 		};
-	};
-
-	this.doNothing = function() {
-		// This function is just there so we can press submit on a form
-		// and not reload the page when we rely on events to do the stuff.
 	};
 };
 

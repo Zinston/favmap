@@ -283,6 +283,11 @@ function ViewModel() {
 				marker.setMap(that.map);
 				bounds.extend(marker.position);
 			};
+			// If the user set a home address, extend the boundaries
+			// of the map to show it too.
+			if (that.home().marker) {
+				bounds.extend(that.home().marker.position);
+			};
 			// Extend the boundaries of the map for each marker
 	        that.map.fitBounds(bounds);
 	    };

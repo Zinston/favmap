@@ -106,7 +106,7 @@ function ViewModel() {
 	this.initMap();
 	this.initSearchbox();
 	this.defaultIcon = this.makeMarkerIcon('f75850');
-	this.savedIcon = this.makeMarkerIcon('ffc107');
+	this.favoriteIcon = this.makeMarkerIcon('ffc107');
 	this.homeIcon = this.makeMarkerIcon('6b7be3');
 
 	/* END INITIALIZATION */

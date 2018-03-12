@@ -20,7 +20,7 @@ function ViewModel() {
 	this.searchBox;
 
 	this.tempMarker;
-	this.largeInfowindow = new google.maps.InfoWindow();
+	this.largeInfowindow = new google.maps.InfoWindow({maxWidth: 200});
 	this.defaultIcon;
 	this.favoriteIcon;
 	this.homeIcon;

@@ -83,7 +83,7 @@ function ViewModel() {
 	    	// Trigger an input event on the searchBox so KO updates the value
 		    ko.utils.triggerEvent(searchElem, "input");
 		    // Search the place
-	    	that.searchBoxPlace();
+	    	that.searchPlace('searchBox');
 		});
 	};
 
@@ -111,7 +111,15 @@ function ViewModel() {
 
 	/* END INITIALIZATION */
 
-	this.searchPlace = function() {
+	this.searchPlace = function(origin) {
+		if (origin == "searchBox") {
+			that.searchBoxPlace();
+		} else {
+			that.searchTextPlace();
+		};
+	};
+
+	this.searchTextPlace = function() {
 		var bounds = that.map.getBounds();
         var placesService = new google.maps.places.PlacesService(that.map);
         
@@ -317,7 +325,6 @@ function ViewModel() {
 	this.savePlace = function(place) {
 		if (!place.name) {
 			if (!that.currentPlace) {
-				console.log('no current place');
 				that.toast({type: "error", message: "Error: there is no place to save."});
 				return;
 			};

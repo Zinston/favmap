@@ -131,7 +131,7 @@ function ViewModel() {
           		that.toast({type: "error", message: message});
           	};
         });
-        
+
 		that.searchInput("");
 	};
 
@@ -331,6 +331,8 @@ function ViewModel() {
 		that.zoomOnPlace(that.currentPlace);
 		that.searchInput("");
 		that.toast({type: "success", message: that.currentPlace.name + " was saved as a favorite."});
+
+		that.openSideBar();
 	};
 
 	this.locateSavedPlace = function(place) {
@@ -370,6 +372,12 @@ function ViewModel() {
 
 		that.zoomOnPlace(that.currentPlace);
 		that.searchInput("");
+		that.openSideBar();
+	};
+
+	this.openSideBar = function() {
+		$('#sidebar').addClass('active');
+        $('#top-navbar').addClass('push-right');
 	};
 };
 

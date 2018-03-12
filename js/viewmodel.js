@@ -131,6 +131,8 @@ function ViewModel() {
           		that.toast({type: "error", message: message});
           	};
         });
+        
+		that.searchInput("");
 	};
 
 	this.searchBoxPlace = function() {
@@ -143,6 +145,8 @@ function ViewModel() {
 		    that.zoomOnPlace(place);
 		    that.addMarker(place);
 	    };
+
+		that.searchInput("");
 	};
 
 	this.getPlaceDetails = function(place) {
@@ -170,6 +174,7 @@ function ViewModel() {
 	    // Center the map on it and zoom
 	    that.map.setCenter(latlng);
 	    that.map.setZoom(17);
+	    that.map.panBy(0, -150); // offset for the infowindow
 
 	    // Set currentPlace to this place
 	    that.currentPlace = place;
@@ -255,6 +260,7 @@ function ViewModel() {
           	that.largeInfowindow.setContent(content);
         };
         that.largeInfowindow.open(that.map, marker);
+
       	// Make sure the marker property is cleared if the infowindow is closed.
       	that.largeInfowindow.addListener('closeclick',function(){
         	that.largeInfowindow.setMarker = null;
@@ -266,7 +272,7 @@ function ViewModel() {
 		});
 		$('#fav-btn-' + place.place_id).click(function() {
 			that.savePlace(place);
-		})
+		});
     };
 
 	this.updateTempMarker = function(marker) {
@@ -322,6 +328,7 @@ function ViewModel() {
 		var marker = that.addMarker(that.currentPlace, 'favorite');
 		that.savedPlaces.push({'place': that.currentPlace, 'marker': marker});
 		that.tempMarker.setMap(null);
+		that.zoomOnPlace(that.currentPlace);
 		that.searchInput("");
 		that.toast({type: "success", message: that.currentPlace.name + " was saved as a favorite."});
 	};
@@ -360,6 +367,9 @@ function ViewModel() {
 		
 		var marker = that.addMarker(place, 'home');
 		that.home({place: place, marker: marker});
+
+		that.zoomOnPlace(that.currentPlace);
+		that.searchInput("");
 	};
 };
 

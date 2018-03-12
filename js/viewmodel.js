@@ -287,6 +287,10 @@ function ViewModel() {
 			that.savePlace(place);
 		});
 		$('#go-btn-' + place.place_id).click(function() {
+			if (!that.home()) {
+				that.toast({type: "error", message: "Error: Set a home address to get directions..."});
+				return;
+			};
 			that.getDirections(that.home().place, place);
 		});
     };

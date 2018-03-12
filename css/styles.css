@@ -53,13 +53,23 @@ html, body {
     left: 0;
     background-color: #fff;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: all 0.5s ease-in-out;
 }
 
 #sidebar.active {
 	display: block;
 	width: 300px;
 	max-width: 60%;
+}
+
+#sidebar .sidebar-header, #sidebar .sidebar-content {
+	opacity: 0;
+	transition: opacity 0s 0.1s ease-in-out;
+}
+
+#sidebar.active .sidebar-header, #sidebar.active .sidebar-content {
+	opacity: 1;
+	transition: opacity 0.6s 0.1s ease-in-out;
 }
 
 #filter-input {

@@ -260,6 +260,10 @@ function ViewModel() {
         content += '" class="btn btn-warning btn-sm mt-2">';
         content += '<i class="fas fa-star text-white"></i>';
         content += '</button>';
+
+        content += '<button id="go-btn-' + place.place_id;
+        content += '" class="btn btn-info btn-sm mt-2 ml-2">Go</button';
+
 		content += '</div>';
 
         // Check to make sure the infowindow is not already opened on this marker.
@@ -274,12 +278,15 @@ function ViewModel() {
         	that.largeInfowindow.setMarker = null;
       	});
 
-      	// Add a listener on the buttons, now the infowindow is in the DOM
+      	// Add listeners on the buttons, now the infowindow is in the DOM
       	$('#home-btn-' + place.place_id).click(function() {
 			that.makeHome(place);
 		});
 		$('#fav-btn-' + place.place_id).click(function() {
 			that.savePlace(place);
+		});
+		$('#go-btn-' + place.place_id).click(function() {
+			that.getDirections(that.home().place, place);
 		});
     };
 
@@ -385,6 +392,38 @@ function ViewModel() {
 	this.openSideBar = function() {
 		$('#sidebar').addClass('active');
         $('#top-navbar').addClass('push-right');
+	};
+
+	// From Udacity course
+	this.getDirections = function (origin, destination) {
+		if (!origin) {
+			that.toast({type: 'error', message: 'Set a home address to get directions...'});
+			return;
+		};
+
+		var directionsService = new google.maps.DirectionsService;
+        // Get mode again from the user entered value.
+        var mode = 'DRIVING';
+        directionsService.route({
+			// The origin is the passed in marker's position.
+			origin: origin.location,
+			// The destination is user entered address.
+			destination: destination.location,
+			travelMode: google.maps.TravelMode[mode]
+        }, function(response, status) {
+			if (status === google.maps.DirectionsStatus.OK) {
+				var directionsDisplay = new google.maps.DirectionsRenderer({
+					map: that.map,
+					directions: response,
+					draggable: true,
+					polylineOptions: {
+					strokeColor: 'green'
+				}
+			});
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
 	};
 };
 

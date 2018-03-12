@@ -27,6 +27,7 @@ function ViewModel() {
 
 	this.currentPlace;
 	this.home = ko.observable();
+	this.directionsDisplay;
 
 	this.savedPlaces = ko.observableArray();
 	// Add saved places from local storage
@@ -401,6 +402,11 @@ function ViewModel() {
 			return;
 		};
 
+		// If directions are already on the map, remove them first.
+		if (that.directionsDisplay) {
+			that.directionsDisplay.setMap(null);
+		};
+
 		var directionsService = new google.maps.DirectionsService;
         // Get mode again from the user entered value.
         var mode = 'DRIVING';
@@ -412,7 +418,7 @@ function ViewModel() {
 			travelMode: google.maps.TravelMode[mode]
         }, function(response, status) {
 			if (status === google.maps.DirectionsStatus.OK) {
-				var directionsDisplay = new google.maps.DirectionsRenderer({
+				that.directionsDisplay = new google.maps.DirectionsRenderer({
 					map: that.map,
 					directions: response,
 					draggable: true,

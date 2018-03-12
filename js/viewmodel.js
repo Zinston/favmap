@@ -417,11 +417,13 @@ function ViewModel() {
 					directions: response,
 					draggable: true,
 					polylineOptions: {
-					strokeColor: 'green'
-				}
-			});
+						strokeColor: '#138496'
+					}
+				});
+				that.tempMarker.setMap(null);
           } else {
-            window.alert('Directions request failed due to ' + status);
+            console.log('Directions request failed due to ' + status);
+            that.toast({type: 'error', message: 'Cannot calculate the way to drive there.'})
           }
         });
 	};

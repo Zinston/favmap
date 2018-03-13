@@ -9,7 +9,9 @@ var Place = function(place) {
 	this.formatted_address = place.formatted_address;
 	this.international_phone_number = place.international_phone_number;
 
-	this.photos = place.photos;
+	if (place.photos) {
+		this.photo = place.photos[0].getUrl( {maxHeight: 100, maxWidth: 200} );
+	};
 	this.price_level = place.price_level;
 	this.rating = place.rating;
 	this.website = place.website;

@@ -249,9 +249,9 @@ function ViewModel() {
 		};
 		content += place.type + '</p>';
 		content += place.formatted_address;
-		if (place.photos) {
+		if (place.photo) {
             content += '<br><br><img src="'
-            content += place.photos[0].getUrl( {maxHeight: 100, maxWidth: 200} )
+            content += place.photo;
             content += '">';
         };
 
@@ -506,6 +506,19 @@ function ViewModel() {
             that.toast({type: 'error', message: 'Cannot calculate the way to drive there.'})
           }
         });
+	};
+
+	this.getStreetViewImage = function(address) {
+		var size = "200x100";
+	    var key = "AIzaSyCTwor9YNahCVHkPbpH5Mzz2-NG2NUEGlM"
+
+	    var url = "https://maps.googleapis.com/maps/api/streetview";
+	    url += "?size=" + size;
+	    url += "&location=" + address;
+	    url += "&pitch=-25";
+	    url += "&key=" + key;
+
+	    return url;
 	};
 
 	this.init = function() {

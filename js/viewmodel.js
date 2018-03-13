@@ -28,7 +28,6 @@ function ViewModel() {
 	this.currentPlace;
 	this.directionsDisplay;
 
-
 	this.home = ko.observable();
 	this.home.subscribe(function() {
 		// Store home's place_id in localStorage
@@ -111,24 +110,6 @@ function ViewModel() {
 		if (!placeObject.photo) {
 			placeObject.photo = that.getStreetViewImage(place.formatted_address);
 		};
-    	// get NY times article
-    	var nytArticle = {};
-    	that.getNyTimes(placeObject.formatted_address)
-    		.done(function(data) {
-		        var docs = data.response.docs;
-		        var articles = '';
-		        if (docs.length == 0) {
-		            return nytArticle = null;
-		        };
-		        nytArticle.url = docs[0].web_url;
-		        nytArticle.headline = docs[0].headline.main;
-		        nytArticle.snippet = docs[0].snippet;
-		        
-		        placeObject.nytArticle = nytArticle;
-	    	})
-	    	.fail(function(error) {
-	        	return nytArticle = null;
-	    	});
 
 	    return placeObject;
     }
@@ -432,7 +413,12 @@ function ViewModel() {
 		};
 
 		var marker = that.addMarker(place, 'favorite');
-		that.savedPlaces.push({'place': place, 'marker': marker});
+
+		var placeToSave = {'place': place, 'marker': marker}
+		that.savedPlaces.push(placeToSave);
+		
+		that.getNyTimes(placeToSave);
+
 		if (that.tempMarker) {
 			that.tempMarker.setMap(null);
 		};
@@ -548,16 +534,39 @@ function ViewModel() {
 	    return url;
 	};
 
-	this.getNyTimes = function(address) {
+	this.getNyTimes = function(place) {
 		var key = "4309c375b8cd415d92f51d1260891c7a";
-	    var query = address;
+	    var query = place.place.name;
 
 	    url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 	    url += "?q=" + query;
 	    url += "&sort=newest";
 	    url += "&api-key=" + key;
 
-	    return $.getJSON(url);
+	    var nytArticle = {};
+
+	    $.getJSON(url)
+	    	.done(function(data) {
+		        var docs = data.response.docs;
+		        var articles = '';
+		        if (docs.length == 0) {
+		        	console.log('no article for this place');
+		            return;
+		        };
+		        nytArticle.url = docs[0].web_url;
+		        nytArticle.headline = docs[0].headline.main;
+		        nytArticle.snippet = docs[0].snippet;
+
+		        var newPlace = place;
+		        newPlace.place.nytArticle = nytArticle;
+		        // Replace the place without article for the one with article
+		        that.savedPlaces.replace(place, newPlace);
+		        // Add all places to filteredPlaces
+				that.filterPlaces();
+	    	})
+	    	.fail(function(error) {
+	    		console.log(error);
+	    	});;
 	};
 
 	this.init = function() {
@@ -601,6 +610,7 @@ function ViewModel() {
 
 // This function is called as a callback on loading the Google Maps API
 function init() {
+	ko.options.deferUpdates = true;
 	var vm = new ViewModel();
 	ko.applyBindings(vm);
 	$('.sidebar-collapse').on('click', function() {

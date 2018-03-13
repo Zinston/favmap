@@ -221,9 +221,8 @@ function ViewModel() {
 	};
 
 	this.addInfoWindow = function(marker, place) {
-		that.populateInfoWindow(marker, place);
-
 		marker.addListener('click', function() {
+			that.populateInfoWindow(marker, place);
             that.largeInfowindow.open(that.map, this);
         });
 	};

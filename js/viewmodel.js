@@ -212,7 +212,7 @@ function ViewModel() {
         });
 
 		if (temp) {
-	        that.updateTempMarker(marker);
+	        that.tempMarker = marker;
 	    };
 
 	    var infowindow = that.addInfoWindow(marker, place);
@@ -221,6 +221,7 @@ function ViewModel() {
 	};
 
 	this.addInfoWindow = function(marker, place) {
+		that.populateInfoWindow(marker, place);
 		marker.addListener('click', function() {
 			that.populateInfoWindow(marker, place);
             that.largeInfowindow.open(that.map, this);
@@ -338,14 +339,6 @@ function ViewModel() {
     	content += '</form></div>';
     	that.largeInfowindow.setContent(content);
     };
-
-	this.updateTempMarker = function(marker) {
-		// Remove previous tempMarker
-		if (that.tempMarker) {
-			that.tempMarker.setMap(null);
-		};
-		that.tempMarker = marker;
-	};
 
 	this.hideSavedMarkers = function() {
 		for (var i = 0; i < that.savedPlaces().length; i++) {

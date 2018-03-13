@@ -523,6 +523,8 @@ function ViewModel() {
 	};
 
 	this.getStreetViewImage = function(address) {
+		address = encodeURIComponent(address);
+
 		var size = "200x100";
 	    var key = "AIzaSyCTwor9YNahCVHkPbpH5Mzz2-NG2NUEGlM"
 

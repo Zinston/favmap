@@ -458,6 +458,7 @@ function ViewModel() {
 		    	that.filteredPlaces.push(item);
 		    };
 		};
+		that.filteredPlaces.valueHasMutated();
 	};
 
 	this.makeHome = function(place, init) {
@@ -548,7 +549,6 @@ function ViewModel() {
 	    $.getJSON(url)
 	    	.done(function(data) {
 		        var docs = data.response.docs;
-		        var articles = '';
 		        if (docs.length == 0) {
 		        	console.log('no article for this place');
 		            return;
@@ -558,11 +558,10 @@ function ViewModel() {
 		        nytArticle.snippet = docs[0].snippet;
 
 		        var newPlace = place;
-		        newPlace.place.nytArticle = nytArticle;
+		        newPlace.place.nytArticle(nytArticle);
 		        // Replace the place without article for the one with article
 		        that.savedPlaces.replace(place, newPlace);
-		        // Add all places to filteredPlaces
-				that.filterPlaces();
+		        console.log('done');
 	    	})
 	    	.fail(function(error) {
 	    		console.log(error);

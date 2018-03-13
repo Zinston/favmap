@@ -18,7 +18,7 @@ var Place = function(place) {
 	if (place.opening_hours) {
 		this.openingHours = place.opening_hours.weekday_text;
 	};
-	this.nytArticle = {'url': null,
+	this.nytArticle = ko.observable({'url': null,
     				   'headline': null,
-    				   'snippet': null};
+    				   'snippet': null});
 };

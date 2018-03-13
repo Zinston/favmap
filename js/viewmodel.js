@@ -259,16 +259,22 @@ function ViewModel() {
 
         var isHome = false;
         if (that.home()) {
-	        isHome = place == that.home().place;
+	        isHome = place.place_id == that.home().place.place_id;
         };
+        var isFavorite = false;
+        for (var i = 0; i < that.savedPlaces().length; i++) {
+        	isFavorite = place.place_id == that.savedPlaces()[i].place.place_id;
+        }
         if (!isHome) {
 	        content += '<button id="home-btn-' + place.place_id;
 	        content += '" class="btn btn-secondary btn-sm mt-2 mr-2">Home</button>';
 
-	        content += '<button id="fav-btn-' + place.place_id;
-	        content += '" class="btn btn-warning btn-sm mt-2">';
-	        content += '<i class="fas fa-star text-white"></i>';
-	        content += '</button>';
+	        if (!isFavorite) {
+		        content += '<button id="fav-btn-' + place.place_id;
+		        content += '" class="btn btn-warning btn-sm mt-2">';
+		        content += '<i class="fas fa-star text-white"></i>';
+		        content += '</button>';
+		    };
 
         	if (that.home()) {
 		        content += '<button id="go-btn-' + place.place_id;

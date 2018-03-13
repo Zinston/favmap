@@ -128,6 +128,9 @@ function ViewModel() {
 			    } else {
 			    	that.getPlaceDetails(places[0].place_id, function(place) {
 			    		var place = new Place(place);
+			    		if (!place.photo) {
+				    		place.photo = that.getStreetViewImage(place.formatted_address);
+				    	};
 					    that.zoomOnPlace(place);
 					    that.addMarker(place);
 			    	});
@@ -149,6 +152,9 @@ function ViewModel() {
 	    	that.toast({type: "error", message: "Error: Couldn't find a place."});
 	    } else {
 	    	var place = new Place(places[0]);
+	    	if (!place.photo) {
+	    		place.photo = that.getStreetViewImage(place.formatted_address);
+	    	};
 		    that.zoomOnPlace(place);
 		    that.addMarker(place);
 	    };
@@ -515,7 +521,7 @@ function ViewModel() {
 	    var url = "https://maps.googleapis.com/maps/api/streetview";
 	    url += "?size=" + size;
 	    url += "&location=" + address;
-	    url += "&pitch=-25";
+	    url += "&pitch=0";
 	    url += "&key=" + key;
 
 	    return url;
@@ -537,7 +543,11 @@ function ViewModel() {
 			for (var i = 0; i < place_ids.length; i++) {
 				var place_id = place_ids[i];
 				that.getPlaceDetails(place_id, function(place) {
-					that.savePlace(new Place(place), true);
+					var placeToSave = new Place(place);
+			    	if (!placeToSave.photo) {
+			    		placeToSave.photo = that.getStreetViewImage(placeToSave.formatted_address);
+			    	};
+					that.savePlace(placeToSave, true);
 					bounds.extend(place.geometry.location);
 					that.map.fitBounds(bounds);
 				});
@@ -547,7 +557,11 @@ function ViewModel() {
 		var home = localStorage.getItem('home')
 		if (home) {
 			that.getPlaceDetails(home, function(place) {
-				that.makeHome(new Place(place), true);
+				var placeToSave = new Place(place);
+				if (!placeToSave.photo) {
+		    		placeToSave.photo = that.getStreetViewImage(placeToSave.formatted_address);
+		    	};
+				that.makeHome(placeToSave, true);
 				that.largeInfowindow.setMap(null);
 				bounds.extend(place.geometry.location);
 				that.map.fitBounds(bounds);

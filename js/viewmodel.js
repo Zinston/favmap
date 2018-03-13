@@ -296,18 +296,22 @@ function ViewModel() {
 			$('#bicycling').click(function() {
 	    		that.getDirections(that.home().place, place, 'BICYCLING');
 	    		that.populateInfoWindow(marker, place);
+	    		that.largeInfowindow.setMap(null);
 	    	});
 	    	$('#driving').click(function() {
 	    		that.getDirections(that.home().place, place, 'DRIVING');
 	    		that.populateInfoWindow(marker, place);
+	    		that.largeInfowindow.setMap(null);
 	    	});
 	    	$('#transit').click(function() {
 	    		that.getDirections(that.home().place, place, 'TRANSIT');
 	    		that.populateInfoWindow(marker, place);
+	    		that.largeInfowindow.setMap(null);
 	    	});
 	    	$('#walking').click(function() {
 	    		that.getDirections(that.home().place, place, 'WALKING');
 	    		that.populateInfoWindow(marker, place);
+	    		that.largeInfowindow.setMap(null);
 	    	});
 		});
     };

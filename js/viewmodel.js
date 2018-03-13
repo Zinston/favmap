@@ -262,8 +262,10 @@ function ViewModel() {
         content += '<i class="fas fa-star text-white"></i>';
         content += '</button>';
 
-        content += '<button id="go-btn-' + place.place_id;
-        content += '" class="btn btn-info btn-sm mt-2 ml-2">Go</button';
+        if (that.home() && place != that.home().place) {
+	        content += '<button id="go-btn-' + place.place_id;
+	        content += '" class="btn btn-info btn-sm mt-2 ml-2">Go</button';
+	    };
 
 		content += '</div>';
 
@@ -286,35 +288,37 @@ function ViewModel() {
 		$('#fav-btn-' + place.place_id).click(function() {
 			that.savePlace(place);
 		});
-		$('#go-btn-' + place.place_id).click(function() {
-			if (!that.home()) {
-				that.toast({type: "error", message: "Error: Set a home address to get directions..."});
-				return;
-			};
+		if (that.home() && place != that.home().place) {
+			$('#go-btn-' + place.place_id).click(function() {
+				if (!that.home()) {
+					that.toast({type: "error", message: "Error: Set a home address to get directions..."});
+					return;
+				};
 
-			that.infowindowAskTravelMode(place);
+				that.infowindowAskTravelMode(place);
 
-			$('#bicycling').click(function() {
-	    		that.getDirections(that.home().place, place, 'BICYCLING');
-	    		that.populateInfoWindow(marker, place);
-	    		that.largeInfowindow.setMap(null);
-	    	});
-	    	$('#driving').click(function() {
-	    		that.getDirections(that.home().place, place, 'DRIVING');
-	    		that.populateInfoWindow(marker, place);
-	    		that.largeInfowindow.setMap(null);
-	    	});
-	    	$('#transit').click(function() {
-	    		that.getDirections(that.home().place, place, 'TRANSIT');
-	    		that.populateInfoWindow(marker, place);
-	    		that.largeInfowindow.setMap(null);
-	    	});
-	    	$('#walking').click(function() {
-	    		that.getDirections(that.home().place, place, 'WALKING');
-	    		that.populateInfoWindow(marker, place);
-	    		that.largeInfowindow.setMap(null);
-	    	});
-		});
+				$('#bicycling').click(function() {
+		    		that.getDirections(that.home().place, place, 'BICYCLING');
+		    		that.populateInfoWindow(marker, place);
+		    		that.largeInfowindow.setMap(null);
+		    	});
+		    	$('#driving').click(function() {
+		    		that.getDirections(that.home().place, place, 'DRIVING');
+		    		that.populateInfoWindow(marker, place);
+		    		that.largeInfowindow.setMap(null);
+		    	});
+		    	$('#transit').click(function() {
+		    		that.getDirections(that.home().place, place, 'TRANSIT');
+		    		that.populateInfoWindow(marker, place);
+		    		that.largeInfowindow.setMap(null);
+		    	});
+		    	$('#walking').click(function() {
+		    		that.getDirections(that.home().place, place, 'WALKING');
+		    		that.populateInfoWindow(marker, place);
+		    		that.largeInfowindow.setMap(null);
+		    	});
+			});
+		};
     };
 
     this.infowindowAskTravelMode = function() {

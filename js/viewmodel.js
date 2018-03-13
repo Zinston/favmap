@@ -111,6 +111,24 @@ function ViewModel() {
 		if (!placeObject.photo) {
 			placeObject.photo = that.getStreetViewImage(place.formatted_address);
 		};
+    	// get NY times article
+    	var nytArticle = {};
+    	that.getNyTimes(placeObject.formatted_address)
+    		.done(function(data) {
+		        var docs = data.response.docs;
+		        var articles = '';
+		        if (docs.length == 0) {
+		            return nytArticle = null;
+		        };
+		        nytArticle.web_url = docs[0].web_url;
+		        nytArticle.headline = docs[0].headline.main;
+		        nytArticle.snippet = docs[0].snippet;
+	    	})
+	    	.fail(function(error) {
+	        	return nytArticle = null;
+	    	});
+	    placeObject.nytArticle = nytArticle;
+
 	    return placeObject;
     }
 
@@ -527,6 +545,18 @@ function ViewModel() {
 	    url += "&key=" + key;
 
 	    return url;
+	};
+
+	this.getNyTimes = function(address) {
+		var key = "4309c375b8cd415d92f51d1260891c7a";
+	    var query = address;
+
+	    url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+	    url += "?q=" + query;
+	    url += "&sort=newest";
+	    url += "&api-key=" + key;
+
+	    return $.getJSON(url);
 	};
 
 	this.init = function() {

@@ -254,17 +254,28 @@ function ViewModel() {
             content += place.photos[0].getUrl( {maxHeight: 100, maxWidth: 200} )
             content += '">';
         };
-        content += '<br><button id="home-btn-' + place.place_id;
-        content += '" class="btn btn-secondary btn-sm mt-2 mr-2">Home</button>';
 
-        content += '<button id="fav-btn-' + place.place_id;
-        content += '" class="btn btn-warning btn-sm mt-2">';
-        content += '<i class="fas fa-star text-white"></i>';
-        content += '</button>';
+        content += '<br>';
 
-        if (that.home() && place != that.home().place) {
-	        content += '<button id="go-btn-' + place.place_id;
-	        content += '" class="btn btn-info btn-sm mt-2 ml-2">Go</button';
+        var isHome = false;
+        if (that.home()) {
+	        isHome = place == that.home().place;
+        };
+        if (!isHome) {
+	        content += '<button id="home-btn-' + place.place_id;
+	        content += '" class="btn btn-secondary btn-sm mt-2 mr-2">Home</button>';
+
+	        content += '<button id="fav-btn-' + place.place_id;
+	        content += '" class="btn btn-warning btn-sm mt-2">';
+	        content += '<i class="fas fa-star text-white"></i>';
+	        content += '</button>';
+
+        	if (that.home()) {
+		        content += '<button id="go-btn-' + place.place_id;
+		        content += '" class="btn btn-info btn-sm mt-2 ml-2">Go</button';
+		    };
+	    } else {
+	    	content += '<br><em style="color: #6b7be3; font-weight: bold;">This is your home</em>';
 	    };
 
 		content += '</div>';

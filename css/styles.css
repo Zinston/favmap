@@ -82,9 +82,22 @@ html, body {
     border-bottom-right-radius: 0;
 }
 
-button.card-header:hover{
-	background-color: white;
-	cursor: pointer;
+.card {
+	border-radius: 0;
+	border: 0;
+}
+
+.card-header {
+	border: 0;
+	padding: 0rem 1.25rem;
+}
+
+#home-card {
+	border-top: 0;
+}
+
+#favorite-places-list :nth-child(even) .card-header {
+	background-color: #fcdd7c;
 }
 
 .home-card-header {

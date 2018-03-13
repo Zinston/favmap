@@ -120,14 +120,15 @@ function ViewModel() {
 		        if (docs.length == 0) {
 		            return nytArticle = null;
 		        };
-		        nytArticle.web_url = docs[0].web_url;
+		        nytArticle.url = docs[0].web_url;
 		        nytArticle.headline = docs[0].headline.main;
 		        nytArticle.snippet = docs[0].snippet;
+		        
+		        placeObject.nytArticle = nytArticle;
 	    	})
 	    	.fail(function(error) {
 	        	return nytArticle = null;
 	    	});
-	    placeObject.nytArticle = nytArticle;
 
 	    return placeObject;
     }

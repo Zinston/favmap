@@ -142,6 +142,15 @@
 					    						</ul>
 					    					</td>
 					    				</tr>
+					    				<tr data-bind="if: place.nytArticle">
+					    					<th scope="row">
+					    						<i class="fa fa-newspaper"></i>
+					    					</th>
+					    					<td>
+					    						<em>Latest related New York Times article:</em>
+					    						<h5><a data-bind="text: place.nytArticle.headline, attr: {src: place.nytArticle.url}"></a></h5>
+					    						<small data-bind="text: place.nytArticle.snippet"></small>
+					    					</td>
 					    			</tbody>
 					    		</table>
 					    	</div>

@@ -407,6 +407,10 @@ function ViewModel() {
 		that.populateInfoWindow(that.home().marker, that.home().place);
 	};
 
+	this.deletePlace = function(place) {
+		that.savedPlaces.pop(place);
+	};
+
 	this.filterPlaces = function() {
 		that.filteredPlaces.removeAll();
 		for (var i = 0; i < that.savedPlaces().length; i++) {

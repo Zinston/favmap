@@ -89,6 +89,37 @@ button.card-header:hover{
 
 .home-icon {
 	color: #6b7be3;
+	width: 10%;
+}
+
+.home-icon :hover {
+	cursor: pointer;
+}
+
+.home-collapsible {
+	width: 90%;
+}
+
+.favorite-place-icon {
+	width: 10%;
+}
+
+.favorite-place-icon :hover {
+	cursor: pointer;
+}
+
+.favorite-place-collapsible {
+	width: 80%;
+}
+
+.favorite-place-delete {
+	width: 10%;
+	color: #d15f55;
+}
+
+.favorite-place-delete :hover {
+	cursor: pointer;
+	color: red;
 }
 
 .favorite-place-details {

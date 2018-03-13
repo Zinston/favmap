@@ -269,8 +269,8 @@ function ViewModel() {
         // Check to make sure the infowindow is not already opened on this marker.
         if (that.largeInfowindow.marker != marker) {
           	that.largeInfowindow.marker = marker;
-          	that.largeInfowindow.setContent(content);
         };
+      	that.largeInfowindow.setContent(content);
         that.largeInfowindow.open(that.map, marker);
 
       	// Make sure the marker property is cleared if the infowindow is closed.
@@ -290,8 +290,49 @@ function ViewModel() {
 				that.toast({type: "error", message: "Error: Set a home address to get directions..."});
 				return;
 			};
-			that.getDirections(that.home().place, place);
+
+			that.infowindowAskTravelMode(place);
+
+			$('#bicycling').click(function() {
+	    		that.getDirections(that.home().place, place, 'BICYCLING');
+	    		that.populateInfoWindow(marker, place);
+	    	});
+	    	$('#driving').click(function() {
+	    		that.getDirections(that.home().place, place, 'DRIVING');
+	    		that.populateInfoWindow(marker, place);
+	    	});
+	    	$('#transit').click(function() {
+	    		that.getDirections(that.home().place, place, 'TRANSIT');
+	    		that.populateInfoWindow(marker, place);
+	    	});
+	    	$('#walking').click(function() {
+	    		that.getDirections(that.home().place, place, 'WALKING');
+	    		that.populateInfoWindow(marker, place);
+	    	});
 		});
+    };
+
+    this.infowindowAskTravelMode = function() {
+    	var content = '<h5>How do you want to travel?</h5>';
+    	content += '<div class="container"><form class="form-control"><div class="form-check">';
+    	content += '<input class="form-check-input" type="radio" name="travelMode" id="bicycling" value="BICYCLING">';
+    	content += '<label class="form-check-label" for="bicycling">Bicycling</label>';
+    	content += '</div>';
+    	content += '<div class="form-check">';
+    	content += '<input class="form-check-input" type="radio" name="travelMode" id="driving" value="DRIVING">';
+    	content += '<label class="form-check-label" for="driving">Driving</label>';
+    	content += '</div>';
+    	content += '<div class="form-check">';
+    	content += '<input class="form-check-input" type="radio" name="travelMode" id="transit" value="TRANSIT">';
+    	content += '<label class="form-check-label" for="transit">Transit</label>';
+    	content += '</div>';
+    	content += '<div class="form-check">';
+    	content += '<input class="form-check-input" type="radio" name="travelMode" id="walking" value="WALKING">';
+    	content += '<label class="form-check-label" for="walking">Walking</label>';
+    	content += '</div>';
+    	//content += '<div class="text-center mt-2"><input type="submit" class="btn btn-sm btn-info" value="Go!"></div>';
+    	content += '</form></div>';
+    	that.largeInfowindow.setContent(content);
     };
 
 	this.updateTempMarker = function(marker) {
@@ -407,7 +448,7 @@ function ViewModel() {
 	};
 
 	// From Udacity course
-	this.getDirections = function (origin, destination) {
+	this.getDirections = function (origin, destination, travelMode) {
 		if (!origin) {
 			that.toast({type: 'error', message: 'Set a home address to get directions...'});
 			return;
@@ -419,14 +460,12 @@ function ViewModel() {
 		};
 
 		var directionsService = new google.maps.DirectionsService;
-        // Get mode again from the user entered value.
-        var mode = 'DRIVING';
         directionsService.route({
 			// The origin is the passed in marker's position.
 			origin: origin.location,
 			// The destination is user entered address.
 			destination: destination.location,
-			travelMode: google.maps.TravelMode[mode]
+			travelMode: google.maps.TravelMode[travelMode]
         }, function(response, status) {
 			if (status === google.maps.DirectionsStatus.OK) {
 				that.directionsDisplay = new google.maps.DirectionsRenderer({
@@ -437,7 +476,9 @@ function ViewModel() {
 						strokeColor: '#138496'
 					}
 				});
-				that.tempMarker.setMap(null);
+				if (that.tempMarker) {
+					that.tempMarker.setMap(null);
+				};
           } else {
             console.log('Directions request failed due to ' + status);
             that.toast({type: 'error', message: 'Cannot calculate the way to drive there.'})
@@ -463,6 +504,7 @@ function ViewModel() {
 				that.getPlaceDetails(place_id, function(place) {
 					that.savePlace(new Place(place), true);
 					bounds.extend(place.geometry.location);
+					that.map.fitBounds(bounds);
 				});
 			};
 		};

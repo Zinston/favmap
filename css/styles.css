@@ -17,7 +17,7 @@ html, body {
 	margin-left: 300px;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 549px) {
     #top-navbar.push-right {
 		margin-left: 60%;
 	}
@@ -26,12 +26,13 @@ html, body {
 		display: none;
 	}
 
-	#top-navbar.push-right #search-button, #top-navbar.push-right #front-add-btn { 
+	#top-navbar.push-right .btn { 
 		margin-top: 5px;
+		border-radius: .25rem;
 	}
 
-	#top-navbar.push-right #front-search-btn {
-		border-radius: .25rem;
+	#top-navbar.push-right .places-search {
+		width: 100%;
 	}
 }
 

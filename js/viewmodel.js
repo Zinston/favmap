@@ -561,7 +561,6 @@ function ViewModel() {
 		        newPlace.place.nytArticle(nytArticle);
 		        // Replace the place without article for the one with article
 		        that.savedPlaces.replace(place, newPlace);
-		        console.log('done');
 	    	})
 	    	.fail(function(error) {
 	    		console.log(error);

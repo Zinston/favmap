@@ -147,8 +147,9 @@
 					    						<i class="fa fa-newspaper"></i>
 					    					</th>
 					    					<td>
-					    						<a data-bind="text: place.nytArticle().headline, attr: {href: place.nytArticle().url}"></a>
+					    						<small><a data-bind="text: place.nytArticle().headline, attr: {href: place.nytArticle().url}" class="text-uppercase" target="_blank"></a></small>
 					    						<br><small data-bind="text: place.nytArticle().snippet"></small>
+					    						<br><small class="text-muted"><em>Source: New York Times</em></small>
 					    					</td>
 					    				</tr>
 					    			</tbody>

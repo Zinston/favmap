@@ -87,6 +87,10 @@ button.card-header:hover{
 	cursor: pointer;
 }
 
+.home-card-header {
+	background-color: #cfe4ff;
+}
+
 .home-icon {
 	color: #6b7be3;
 	width: 10%;
@@ -98,6 +102,10 @@ button.card-header:hover{
 
 .home-collapsible {
 	width: 90%;
+}
+
+.favorite-place-card-header {
+	background-color: #ffe9a5;
 }
 
 .favorite-place-icon {

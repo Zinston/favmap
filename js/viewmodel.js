@@ -30,13 +30,7 @@ function ViewModel() {
 	this.directionsDisplay;
 
 	this.savedPlaces = ko.observableArray();
-	// Add saved places from local storage
-	/*var lsPlaces = localStorage.getItem('savedPlaces')
-	if (lsPlaces) {
-		console.log(lsPlaces);
-		this.savedPlaces(lsPlaces);
-		console.log(this.savedPlaces());
-	};*/
+	
 	this.savedPlaces.subscribe(function() {
 		// Add all places to filteredPlaces
 		that.filterPlaces();
@@ -44,8 +38,13 @@ function ViewModel() {
 		that.filterString("");
 		// Update the markers
 		that.updateMarkers();
-		// Store itself in localStorage
-		//localStorage.setItem("savedPlaces", ko.toJSON(that.savedPlaces()));
+
+		// Store saved place_id's in localStorage
+		var savedPlaceIds = [];
+		for (var i = 0; i < that.savedPlaces().length; i++) {
+			savedPlaceIds.push(that.savedPlaces()[i].place.place_id);
+		};
+		localStorage.setItem("savedPlaces", ko.toJSON(savedPlaceIds));
 	});
 
 	this.filteredPlaces = ko.observableArray();
@@ -132,7 +131,11 @@ function ViewModel() {
             	if (places.length == 0) {
 			    	that.toast({type: "error", message: "Error: Couldn't find a place."});
 			    } else {
-			    	that.getPlaceDetails(places[0]);
+			    	that.getPlaceDetails(places[0].place_id, function(place) {
+			    		var place = new Place(place);
+					    that.zoomOnPlace(place);
+					    that.addMarker(place);
+			    	});
 			    };
           	} else {
           		var message = "Error: Couldn't get the info from Google... ";
@@ -158,16 +161,14 @@ function ViewModel() {
 		that.searchInput("");
 	};
 
-	this.getPlaceDetails = function(place) {
+	this.getPlaceDetails = function(place_id, callback) {
 		var placesService = new google.maps.places.PlacesService(that.map);
 
 		placesService.getDetails({
-        	placeId: place.place_id
+        	placeId: place_id
         }, function(place, status) {
           	if (status === google.maps.places.PlacesServiceStatus.OK) {
-            	var place = new Place(place);
-			    that.zoomOnPlace(place);
-			    that.addMarker(place);
+            	callback(place);
             } else {
             	var message = "Error: Couldn't get the info from Google... ";
           		message += "Test your Internet connexion and try again.";
@@ -334,7 +335,9 @@ function ViewModel() {
 		that.showFilteredMarkers();
 	};
 
-	this.savePlace = function(place) {
+	// if init is true it means we're adding places
+	// from localStorage
+	this.savePlace = function(place, init) {
 		if (!place.name) {
 			if (!that.currentPlace) {
 				that.toast({type: "error", message: "Error: there is no place to save."});
@@ -344,14 +347,18 @@ function ViewModel() {
 			var place = that.currentPlace;
 		};
 
-		var marker = that.addMarker(that.currentPlace, 'favorite');
-		that.savedPlaces.push({'place': that.currentPlace, 'marker': marker});
-		that.tempMarker.setMap(null);
-		that.zoomOnPlace(that.currentPlace);
-		that.searchInput("");
-		that.toast({type: "success", message: that.currentPlace.name + " was saved as a favorite."});
+		var marker = that.addMarker(place, 'favorite');
+		that.savedPlaces.push({'place': place, 'marker': marker});
+		if (that.tempMarker) {
+			that.tempMarker.setMap(null);
+		};
+		that.zoomOnPlace(place);
 
-		that.openSideBar();
+		if (!init) {
+			that.searchInput("");
+			that.toast({type: "success", message: place.name + " was saved as a favorite."});
+			that.openSideBar();
+		};
 	};
 
 	this.locateSavedPlace = function(place) {
@@ -436,6 +443,21 @@ function ViewModel() {
             that.toast({type: 'error', message: 'Cannot calculate the way to drive there.'})
           }
         });
+	};
+
+	// Add saved places from local storage
+	var lsPlaces = localStorage.getItem('savedPlaces')
+	if (lsPlaces) {
+		var place_ids = JSON.parse(lsPlaces);
+		console.log(place_ids);
+		for (var i = 0; i < place_ids.length; i++) {
+			var place_id = place_ids[i];
+			that.getPlaceDetails(place_id, function(place) {
+				console.log(place);
+				that.savePlace(new Place(place), true);
+				that.largeInfowindow.setMap(null);
+			});
+		};
 	};
 };
 

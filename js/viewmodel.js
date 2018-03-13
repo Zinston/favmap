@@ -26,11 +26,16 @@ function ViewModel() {
 	this.homeIcon;
 
 	this.currentPlace;
-	this.home = ko.observable();
 	this.directionsDisplay;
 
+
+	this.home = ko.observable();
+	this.home.subscribe(function() {
+		// Store home's place_id in localStorage
+		localStorage.setItem("home", that.home().place.place_id);
+	});
+
 	this.savedPlaces = ko.observableArray();
-	
 	this.savedPlaces.subscribe(function() {
 		// Add all places to filteredPlaces
 		that.filterPlaces();
@@ -453,15 +458,21 @@ function ViewModel() {
 	var lsPlaces = localStorage.getItem('savedPlaces')
 	if (lsPlaces) {
 		var place_ids = JSON.parse(lsPlaces);
-		console.log(place_ids);
 		for (var i = 0; i < place_ids.length; i++) {
 			var place_id = place_ids[i];
 			that.getPlaceDetails(place_id, function(place) {
-				console.log(place);
 				that.savePlace(new Place(place), true);
 				that.largeInfowindow.setMap(null);
 			});
 		};
+	};
+	// Add home from local storage
+	var home = localStorage.getItem('home')
+	if (home) {
+		that.getPlaceDetails(home, function(place) {
+			that.makeHome(new Place(place), true);
+			that.largeInfowindow.setMap(null);
+		});
 	};
 };
 

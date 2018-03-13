@@ -423,7 +423,7 @@ function ViewModel() {
 	};
 
 	this.deletePlace = function(place) {
-		that.savedPlaces.pop(place);
+		that.savedPlaces.remove(place);
 	};
 
 	this.filterPlaces = function() {

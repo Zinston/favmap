@@ -195,6 +195,10 @@ function ViewModel() {
 		var latlng = place.location;
 		var formatted_address = place.formatted_address;
 
+		if (that.tempMarker) {
+			that.tempMarker.setMap(null);
+		};
+
 		if (type == 'favorite') {
 			var icon = that.favoriteIcon;
 		} else if (type == 'home') {

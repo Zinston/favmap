@@ -58,8 +58,6 @@ function ViewModel() {
 		that.updateMarkers();
 	});
 
-	/* INITIALIZATION */
-
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
 		// Constructor creates a new map - only center and zoom are required.
@@ -107,14 +105,6 @@ function ViewModel() {
         );
         return markerImage;
     };
-
-	this.initMap();
-	this.initSearchbox();
-	this.defaultIcon = this.makeMarkerIcon('f75850');
-	this.favoriteIcon = this.makeMarkerIcon('ffc107');
-	this.homeIcon = this.makeMarkerIcon('6b7be3');
-
-	/* END INITIALIZATION */
 
 	this.searchPlace = function(origin) {
 		if (origin == "searchBox") {
@@ -395,7 +385,7 @@ function ViewModel() {
 		};
 	};
 
-	this.makeHome = function(place) {
+	this.makeHome = function(place, init) {
 		if (that.home()) {
 			if (that.home().marker) {
 				that.home().marker.setMap(null);
@@ -405,9 +395,11 @@ function ViewModel() {
 		var marker = that.addMarker(place, 'home');
 		that.home({place: place, marker: marker});
 
-		that.zoomOnPlace(that.currentPlace);
-		that.searchInput("");
-		that.openSideBar();
+		if (!init) {
+			that.zoomOnPlace(that.currentPlace);
+			that.searchInput("");
+			that.openSideBar();
+		};
 	};
 
 	this.openSideBar = function() {
@@ -454,26 +446,36 @@ function ViewModel() {
         });
 	};
 
-	// Add saved places from local storage
-	var lsPlaces = localStorage.getItem('savedPlaces')
-	if (lsPlaces) {
-		var place_ids = JSON.parse(lsPlaces);
-		for (var i = 0; i < place_ids.length; i++) {
-			var place_id = place_ids[i];
-			that.getPlaceDetails(place_id, function(place) {
-				that.savePlace(new Place(place), true);
+	this.init = function() {
+		this.initMap();
+		this.initSearchbox();
+		this.defaultIcon = this.makeMarkerIcon('f75850');
+		this.favoriteIcon = this.makeMarkerIcon('ffc107');
+		this.homeIcon = this.makeMarkerIcon('6b7be3');
+
+		// Add saved places from local storage
+		var lsPlaces = localStorage.getItem('savedPlaces')
+		if (lsPlaces) {
+			var place_ids = JSON.parse(lsPlaces);
+			for (var i = 0; i < place_ids.length; i++) {
+				var place_id = place_ids[i];
+				that.getPlaceDetails(place_id, function(place) {
+					that.savePlace(new Place(place), true);
+					that.largeInfowindow.setMap(null);
+				});
+			};
+		};
+		// Add home from local storage
+		var home = localStorage.getItem('home')
+		if (home) {
+			that.getPlaceDetails(home, function(place) {
+				that.makeHome(new Place(place), true);
 				that.largeInfowindow.setMap(null);
 			});
 		};
 	};
-	// Add home from local storage
-	var home = localStorage.getItem('home')
-	if (home) {
-		that.getPlaceDetails(home, function(place) {
-			that.makeHome(new Place(place), true);
-			that.largeInfowindow.setMap(null);
-		});
-	};
+
+	that.init();
 };
 
 // This function is called as a callback on loading the Google Maps API

@@ -453,6 +453,7 @@ function ViewModel() {
 		this.favoriteIcon = this.makeMarkerIcon('ffc107');
 		this.homeIcon = this.makeMarkerIcon('6b7be3');
 
+
 		var bounds = new google.maps.LatLngBounds();
 		// Add saved places from local storage
 		var lsPlaces = localStorage.getItem('savedPlaces')
@@ -462,21 +463,19 @@ function ViewModel() {
 				var place_id = place_ids[i];
 				that.getPlaceDetails(place_id, function(place) {
 					that.savePlace(new Place(place), true);
-					that.largeInfowindow.setMap(null);
 					bounds.extend(place.geometry.location);
-
-					// Add home from local storage
-					var home = localStorage.getItem('home')
-					if (home) {
-						that.getPlaceDetails(home, function(place) {
-							that.makeHome(new Place(place), true);
-							that.largeInfowindow.setMap(null);
-							bounds.extend(place.geometry.location);
-							that.map.fitBounds(bounds);
-						});
-					};
 				});
 			};
+		};
+		// Add home from local storage
+		var home = localStorage.getItem('home')
+		if (home) {
+			that.getPlaceDetails(home, function(place) {
+				that.makeHome(new Place(place), true);
+				that.largeInfowindow.setMap(null);
+				bounds.extend(place.geometry.location);
+				that.map.fitBounds(bounds);
+			});
 		};
 	};
 

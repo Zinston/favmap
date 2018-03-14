@@ -58,8 +58,18 @@
         		<div id="accordion">
         			<div id="home-card" class="card" data-bind="if: home">
         				<div class="card-header home-card-header" data-toggle="collapse" data-bind="attr: { 'data-target' : '#collapsible-home', 'aria-controls': '#collapsible-home' }">
-				        	<span class="home-icon" data-bind="click: locateHome"><i class="fa fa-home"></i></span>
-				        	<button class="home-collapsible btn btn-link text-center" data-bind="text: home().place.name, attr: { 'data-target' : '#collapsible' + home().place.place_id, 'aria-controls': '#collapsible' + home().place.place_id }"></button>
+        					<table>
+        						<tr>
+        							<td>
+			        					<div class="home-icon" data-bind="click: locateHome">
+							        		<i class="fa fa-home"></i>
+							        	</div>
+							        </td>
+							        <td class="w-100 text-center">
+							        	<button class="home-collapsible btn btn-link text-center" data-bind="text: home().place.name, attr: { 'data-target' : '#collapsible' + home().place.place_id, 'aria-controls': '#collapsible' + home().place.place_id }"></button>
+							        </td>
+							    </tr>
+							</table>
 				        </div>
 				        <div data-bind="attr: { id: 'collapsible-home' }" class="collapse" data-parent="#accordion">
 					    	<div class="card-body" data-bind="attr: { id: 'collapsible-home' }">
@@ -102,13 +112,23 @@
     			<div id="favorite-places-list" data-bind="foreach: filteredPlaces">
         			<div class="card">
         				<div class="card-header favorite-place-card-header" data-toggle="collapse" data-bind="attr: { 'data-target' : '#collapsible' + place.place_id, 'aria-controls': '#collapsible' + place.place_id }">
-				        	<span class="favorite-place-icon">
-				        		<img width="20px" data-bind="attr:{src: place.icon}, click: $parent.locateSavedPlace">
-				        	</span>
-				        	<button class="favorite-place-collapsible btn btn-link text-center" data-bind="text: place.name, attr: { 'data-target' : '#collapsible' + place.place_id, 'aria-controls': '#collapsible' + place.place_id }"></button>
-				        	<span class="favorite-place-delete" data-bind="click: $parent.deletePlace">
-				        		<i class="fa fa-trash"></i>
-				        	</span>
+				        	<table>
+        						<tr>
+        							<td>
+			        					<span class="favorite-place-icon">
+							        		<img width="20px" data-bind="attr:{src: place.icon}, click: $parent.locateSavedPlace">
+							        	</span>
+							        </td>
+							        <td class="w-100 text-center">
+							        	<button class="favorite-place-collapsible btn btn-link text-center" data-bind="text: place.name, attr: { 'data-target' : '#collapsible' + place.place_id, 'aria-controls': '#collapsible' + place.place_id }"></button>
+							        </td>
+							        <td>
+							        	<span class="favorite-place-delete text-right" data-bind="click: $parent.deletePlace">
+							        		<i class="fa fa-trash"></i>
+							        	</span>
+							        </td>
+							    </tr>
+							</table>
 				        </div>
 				        <div data-bind="attr: { id: 'collapsible' + place.place_id }" class="collapse" data-parent="#accordion">
 					    	<div class="card-body" data-bind="attr: { id: 'collapsible' + place.place_id }">

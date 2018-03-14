@@ -107,7 +107,6 @@ html, body {
 
 .home-icon {
 	color: #6b7be3;
-	width: 10%;
 }
 
 .home-icon :hover {
@@ -115,15 +114,11 @@ html, body {
 }
 
 .home-collapsible {
-	width: 90%;
+	white-space: normal;
 }
 
 .favorite-place-card-header {
 	background-color: #ffe9a5;
-}
-
-.favorite-place-icon {
-	width: 10%;
 }
 
 .favorite-place-icon :hover {
@@ -131,11 +126,10 @@ html, body {
 }
 
 .favorite-place-collapsible {
-	width: 80%;
+	white-space: normal;
 }
 
 .favorite-place-delete {
-	width: 10%;
 	color: #d15f55;
 }
 

@@ -59,10 +59,220 @@ function ViewModel() {
 
 	// Initialize the map. Called on load (see below).
 	this.initMap = function() {
+		var styles = [
+		    {
+		        "featureType": "administrative",
+		        "elementType": "labels.text.fill",
+		        "stylers": [
+		            {
+		                "color": "#444444"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "landscape",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "color": "#f2f2f2"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "poi",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "off"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "saturation": -100
+		            },
+		            {
+		                "lightness": 45
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.highway",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "simplified"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.highway",
+		        "elementType": "geometry",
+		        "stylers": [
+		            {
+		                "visibility": "simplified"
+		            },
+		            {
+		                "color": "#ff6a6a"
+		            },
+		            {
+		                "lightness": "0"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.highway",
+		        "elementType": "geometry.fill",
+		        "stylers": [
+		            {
+		                "color": "#ffc107"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.highway",
+		        "elementType": "geometry.stroke",
+		        "stylers": [
+		            {
+		                "color": "#ffc107"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.highway",
+		        "elementType": "labels.text",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.highway",
+		        "elementType": "labels.icon",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.arterial",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.arterial",
+		        "elementType": "geometry.fill",
+		        "stylers": [
+		            {
+		                "color": "#ffc107"
+		            },
+		            {
+		                "lightness": "62"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.arterial",
+		        "elementType": "labels.icon",
+		        "stylers": [
+		            {
+		                "visibility": "off"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.local",
+		        "elementType": "geometry.fill",
+		        "stylers": [
+		            {
+		                "lightness": "75"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "transit",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "off"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "transit.line",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "transit.station.bus",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "transit.station.rail",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "transit.station.rail",
+		        "elementType": "labels.icon",
+		        "stylers": [
+		            {
+		                "weight": "0.01"
+		            },
+		            {
+		                "hue": "#ff0028"
+		            },
+		            {
+		                "lightness": "0"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "water",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            },
+		            {
+		                "color": "#17a2b8"
+		            },
+		            {
+		                "lightness": "25"
+		            },
+		            {
+		                "saturation": "-23"
+		            }
+		        ]
+		    }
+		];
 		// Constructor creates a new map - only center and zoom are required.
 		this.map = new google.maps.Map(document.getElementById('map'), {
 			center: {lat: 40.7413549, lng: -73.9980244},
 			zoom: 13,
+			styles: styles,
 	        disableDefaultUI: true,
 	        maxZoom: 17
 		});

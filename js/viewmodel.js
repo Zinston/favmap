@@ -634,8 +634,6 @@ function ViewModel() {
 
 		var placeToSave = {'place': place, 'marker': marker}
 		that.savedPlaces.push(placeToSave);
-		
-		//that.getNyTimes(placeToSave);
 
 		if (that.tempMarker) {
 			that.tempMarker.setMap(null);
@@ -755,38 +753,6 @@ function ViewModel() {
 	    return url;
 	};
 
-	this.getNyTimes = function(place) {
-		var key = "4309c375b8cd415d92f51d1260891c7a";
-	    var query = place.place.name;
-
-	    url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-	    url += "?q=" + query;
-	    url += "&sort=newest";
-	    url += "&api-key=" + key;
-
-	    var nytArticle = {};
-
-	    $.getJSON(url)
-	    	.done(function(data) {
-		        var docs = data.response.docs;
-		        if (docs.length == 0) {
-		        	console.log('no article for this place');
-		            return;
-		        };
-		        nytArticle.url = docs[0].web_url;
-		        nytArticle.headline = docs[0].headline.main;
-		        nytArticle.snippet = docs[0].snippet;
-
-		        var newPlace = place;
-		        newPlace.place.nytArticle(nytArticle);
-		        // Replace the place without article for the one with article
-		        that.savedPlaces.replace(place, newPlace);
-	    	})
-	    	.fail(function(error) {
-	    		console.log(error);
-	    	});;
-	};
-
 	this.init = function() {
 		this.initMap();
 		this.initSearchbox();
@@ -804,6 +770,7 @@ function ViewModel() {
 				that.getPlaceDetails(place_id, function(place) {
 					var placeToSave = that.makePlaceObject(place);
 					that.savePlace(placeToSave, true);
+					that.largeInfowindow.setMap(null);
 					bounds.extend(place.geometry.location);
 					that.map.fitBounds(bounds);
 				});

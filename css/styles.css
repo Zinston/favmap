@@ -111,6 +111,8 @@ html, body {
 
 .home-icon :hover {
 	cursor: pointer;
+	font-size: 1.3rem;
+	color: #1d33ac;
 }
 
 .home-collapsible {
@@ -123,6 +125,7 @@ html, body {
 
 .favorite-place-icon :hover {
 	cursor: pointer;
+	width: 30px;
 }
 
 .favorite-place-collapsible {

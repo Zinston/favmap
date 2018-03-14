@@ -3,16 +3,17 @@ function ViewModel() {
 
 	this.searchInput = ko.observable("");
 	this.filterString = ko.observable("");
+
 	this.toast = ko.observable({type: "info", message: ""}); // Accepts types info, error and success
+	this.toastType = ko.computed(function() {return that.toast().type});
+	this.toastCSS = ko.observable("");
 
 	this.toast.subscribe(function() {
-		$('#toast').toggleClass(that.toast().type);
-		$('#toast').toggleClass('show');
+		that.toastCSS('show ' + that.toastType());
 
-	    // After 3 seconds, remove the show class from DIV
+	    // After 3 seconds, hide the toast
 	    setTimeout(function() {
-	    	$('#toast').toggleClass('show');
-	    	$('#toast').toggleClass(that.toast().type);
+	    	that.toastCSS();
 	    }, 3000);
 	})
 
@@ -631,7 +632,7 @@ function ViewModel() {
 		var placeToSave = {'place': place, 'marker': marker}
 		that.savedPlaces.push(placeToSave);
 		
-		that.getNyTimes(placeToSave);
+		//that.getNyTimes(placeToSave);
 
 		if (that.tempMarker) {
 			that.tempMarker.setMap(null);

@@ -17,6 +17,9 @@ function ViewModel() {
 	    }, 3000);
 	})
 
+	this.sidebarCSS = ko.observable("");
+	this.topNavbarCSS = ko.observable("");
+
 	this.map;
 	this.searchBox;
 
@@ -694,8 +697,8 @@ function ViewModel() {
 	};
 
 	this.openSideBar = function() {
-		$('#sidebar').addClass('active');
-        $('#top-navbar').addClass('push-right');
+		that.sidebarCSS("active");
+		that.topNavbarCSS("push-right");
 	};
 
 	// From Udacity course

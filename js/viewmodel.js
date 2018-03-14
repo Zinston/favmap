@@ -453,7 +453,14 @@ function ViewModel() {
 		marker.addListener('click', function() {
 			that.populateInfoWindow(marker, place);
             that.largeInfowindow.open(that.map, this);
+            that.animateMarker(marker);
         });
+	};
+
+	this.animateMarker = function(marker) {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        // 1 bounce is 725 -> 3 bounces = 2175
+		setTimeout(() => marker.setAnimation(null), 2175);
 	};
 
 	this.populateInfoWindow = function(marker, place) {
@@ -650,11 +657,13 @@ function ViewModel() {
 	this.locateSavedPlace = function(place) {
 		that.zoomOnPlace(place.place);
         that.populateInfoWindow(place.marker, place.place);
+        that.animateMarker(place.marker);
 	};
 
 	this.locateHome = function() {
 		that.zoomOnPlace(that.home().place);
 		that.populateInfoWindow(that.home().marker, that.home().place);
+		that.animateMarker(that.home().marker);
 	};
 
 	this.deletePlace = function(place) {

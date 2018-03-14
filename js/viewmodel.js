@@ -317,18 +317,21 @@ function ViewModel() {
 
     this.makePlaceObject = function(place) {
 		var placeObject = new Place(place);
+
 		if (!placeObject.photo) {
 			placeObject.photo = that.getStreetViewImage(place.formatted_address);
 		};
 
 	    return placeObject;
-    }
+    };
 
 	this.searchPlace = function(origin) {
-		if (origin == "searchBox") {
-			that.searchBoxPlace();
-		} else {
-			that.searchTextPlace();
+		switch (origin) {
+			case 'searchBox':
+				that.searchBoxPlace();
+				break;
+			default:
+				that.searchTextPlace();
 		};
 	};
 
@@ -412,13 +415,16 @@ function ViewModel() {
 			that.tempMarker.setMap(null);
 		};
 
-		if (type == 'favorite') {
-			var icon = that.favoriteIcon;
-		} else if (type == 'home') {
-			var icon = that.homeIcon;
-		} else {
-			var icon = that.defaultIcon;
-			var temp = true;
+		switch (type) {
+			case 'favorite':
+				var icon = that.favoriteIcon;
+				break;
+			case 'home':
+				var icon = that.homeIcon;
+				break;
+			default:
+				var icon = that.defaultIcon;
+				var temp = true;
 		};
 
 		var marker = new google.maps.Marker({
@@ -475,14 +481,12 @@ function ViewModel() {
 
         content += '<br>';
 
-        var isHome = false;
-        if (that.home()) {
-	        isHome = place.place_id == that.home().place.place_id;
-        };
+        var isHome = that.home() ? place.place_id == that.home().place.place_id : false;
         var isFavorite = false;
         for (var i = 0; i < that.savedPlaces().length; i++) {
         	isFavorite = place.place_id == that.savedPlaces()[i].place.place_id;
-        }
+        };
+
         if (!isHome) {
 	        content += '<button id="home-btn-' + place.place_id;
 	        content += '" class="btn btn-secondary btn-sm mt-2 mr-2">Home</button>';
@@ -786,10 +790,9 @@ function ViewModel() {
 		this.favoriteIcon = this.makeMarkerIcon('ffc107');
 		this.homeIcon = this.makeMarkerIcon('6b7be3');
 
-
 		var bounds = new google.maps.LatLngBounds();
 		// Add saved places from local storage
-		var lsPlaces = localStorage.getItem('savedPlaces')
+		var lsPlaces = localStorage.getItem('savedPlaces');
 		if (lsPlaces) {
 			var place_ids = JSON.parse(lsPlaces);
 			for (var i = 0; i < place_ids.length; i++) {
@@ -803,7 +806,7 @@ function ViewModel() {
 			};
 		};
 		// Add home from local storage
-		var home = localStorage.getItem('home')
+		var home = localStorage.getItem('home');
 		if (home) {
 			that.getPlaceDetails(home, function(place) {
 				var placeToSave = that.makePlaceObject(place);

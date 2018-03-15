@@ -15,7 +15,7 @@ function ViewModel() {
 		setTimeout(function() {
 			that.toastCSS('');
 		}, 3000);
-	})
+	});
 
 	this.sidebarCSS = ko.observable("");
 	this.topNavbarCSS = ko.observable("");
@@ -834,7 +834,7 @@ function ViewModel() {
 		  } else {
 			console.log('Directions request failed due to ' + status);
 			that.toast({type: 'error', message: 'Cannot calculate the way to drive there.'})
-		  }
+		  };
 		});
 	};
 

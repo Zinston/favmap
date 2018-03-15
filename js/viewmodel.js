@@ -49,9 +49,7 @@ function ViewModel() {
 
 		// Store saved place_id's in localStorage
 		let savedPlaceIds = [];
-		for (let i = 0; i < that.savedPlaces().length; i++) {
-			savedPlaceIds.push(that.savedPlaces()[i].place.place_id);
-		};
+		that.savedPlaces().forEach((savedPlace) => savedPlaceIds.push(savedPlace.place.place_id));
 		localStorage.setItem("savedPlaces", ko.toJSON(savedPlaceIds));
 	});
 
@@ -540,9 +538,7 @@ function ViewModel() {
 
 		let isHome = that.home() ? place.place_id == that.home().place.place_id : false;
 		let isFavorite = false;
-		for (let i = 0; i < that.savedPlaces().length; i++) {
-			isFavorite = place.place_id == that.savedPlaces()[i].place.place_id;
-		};
+		that.savedPlaces().forEach((savedPlace) => isFavorite = place.place_id == savedPlace.place.place_id);
 
 		if (!isHome) {
 			content += '<button id="home-btn-' + place.place_id;
@@ -647,9 +643,7 @@ function ViewModel() {
 	* @description Hide all saved markers but the home marker.
 	*/
 	this.hideSavedMarkers = function() {
-		for (let i = 0; i < that.savedPlaces().length; i++) {
-			that.savedPlaces()[i].marker.setMap(null);
-		};
+		that.savedPlaces().forEach((savedPlace) => savedPlace.marker.setMap(null));
 	};
 
 	/**
@@ -658,11 +652,11 @@ function ViewModel() {
 	this.showFilteredMarkers = function() {
 		if (that.filteredPlaces().length > 0) {
 			let bounds = new google.maps.LatLngBounds();
-			for (let i = 0; i < that.filteredPlaces().length; i++) {
-				let marker = that.filteredPlaces()[i].marker;
+			that.filteredPlaces().forEach(function(filteredPlace) {
+				let marker = filteredPlace.marker;
 				marker.setMap(that.map);
 				bounds.extend(marker.position);
-			};
+			});
 			// If the user set a home address, extend the boundaries
 			// of the map to show it too.
 			if (that.home()) {
@@ -749,8 +743,7 @@ function ViewModel() {
 	*/
 	this.filterPlaces = function() {
 		that.filteredPlaces.removeAll();
-		for (let i = 0; i < that.savedPlaces().length; i++) {
-			let item = that.savedPlaces()[i];
+		that.savedPlaces().forEach(function(item) {
 			let filter = that.filterString().toLowerCase();
 			let itemName = item.place.name.toLowerCase();
 			let itemAddress = item.place.formatted_address.toLowerCase();
@@ -759,7 +752,7 @@ function ViewModel() {
 			if (itemName.indexOf(filter) >= 0 || itemAddress.indexOf(filter) >= 0 || itemType.indexOf(filter) >= 0 || itemPhone.indexOf(filter) >= 0) {
 				that.filteredPlaces.push(item);
 			};
-		};
+		});
 		that.filteredPlaces.valueHasMutated();
 	};
 
@@ -952,8 +945,7 @@ function ViewModel() {
 		let lsPlaces = localStorage.getItem('savedPlaces');
 		if (lsPlaces) {
 			let place_ids = JSON.parse(lsPlaces);
-			for (let i = 0; i < place_ids.length; i++) {
-				let place_id = place_ids[i];
+			place_ids.forEach(function(place_id) {
 				that.getPlaceDetails(place_id, function(place) {
 					let placeToSave = that.makePlaceObject(place);
 					that.savePlace(placeToSave, true);
@@ -961,7 +953,7 @@ function ViewModel() {
 					bounds.extend(place.geometry.location);
 					that.map.fitBounds(bounds);
 				});
-			};
+			});
 		};
 		// Add home from local storage
 		let home = localStorage.getItem('home');

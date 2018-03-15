@@ -868,13 +868,13 @@ function ViewModel() {
 		let url = "https://api.foursquare.com/v2/venues/search";
 		let ll = place.place.location.lat() + ',' + place.place.location.lng();
 		let query = place.place.name;
-		let client_id = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
-		let client_secret = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
-		let version = "20180314";
+		const CLIENT_ID = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
+		const CLIENT_SECRET = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
+		const VERSION = "20180314";
 
-		url += '?client_id=' + client_id;
-		url += '&client_secret=' + client_secret;
-		url += '&v=' + version;
+		url += '?client_id=' + CLIENT_ID;
+		url += '&client_secret=' + CLIENT_SECRET;
+		url += '&v=' + VERSION;
 		url += '&ll=' + ll;
 		url += '&query=' + query;
 
@@ -899,13 +899,13 @@ function ViewModel() {
 	*/
 	this.getFoursquareDetails = function(id, place) {
 		let url = "https://api.foursquare.com/v2/venues/" + id;
-		let client_id = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
-		let client_secret = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
-		let version = "20180314";
+		const CLIENT_ID = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
+		const CLIENT_SECRET = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
+		const VERSION = "20180314";
 
-		url += '?client_id=' + client_id;
-		url += '&client_secret=' + client_secret;
-		url += '&v=' + version;
+		url += '?client_id=' + CLIENT_ID;
+		url += '&client_secret=' + CLIENT_SECRET;
+		url += '&v=' + VERSION;
 
 		$.getJSON(url, function(data) {
 			if (data.meta.code == 200) {

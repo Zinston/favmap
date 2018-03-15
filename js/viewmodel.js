@@ -13,7 +13,7 @@ function ViewModel() {
 
 	    // After 3 seconds, hide the toast
 	    setTimeout(function() {
-	    	that.toastCSS();
+	    	that.toastCSS('');
 	    }, 3000);
 	})
 

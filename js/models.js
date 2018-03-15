@@ -9,15 +9,11 @@ var Place = function(place) {
 	this.formatted_address = place.formatted_address;
 	this.international_phone_number = place.international_phone_number;
 
-	if (place.photos) {
-		this.photo = place.photos[0].getUrl( {maxHeight: 100, maxWidth: 200} );
-	};
+	this.photo = place.photos ? place.photos[0].getUrl( {maxHeight: 100, maxWidth: 200} ) : null;
 	this.price_level = place.price_level;
 	this.rating = place.rating;
 	this.website = place.website;
-	if (place.opening_hours) {
-		this.openingHours = place.opening_hours.weekday_text;
-	};
+	this.openingHours = place.opening_hours ? place.opening_hours.weekday_text : null;
 
 	this.fs_name = ko.observable();
 	this.fs_contact = ko.observable();

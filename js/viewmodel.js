@@ -812,11 +812,11 @@ function ViewModel() {
 					var venue = data.response.venue;
 
 					var newPlace = place;
-					newPlace.place.fs_name(venue.name);
-					newPlace.place.fs_contact(venue.contact);
-					newPlace.place.fs_description(venue.description);
-					newPlace.place.fs_likes(venue.likes);
-					newPlace.place.fs_rating({rating: venue.rating, color: '#' + venue.ratingColor});
+					var name = venue.name ? newPlace.place.fs_name(venue.name) : null;
+					var contact = venue.contact ? newPlace.place.fs_contact(venue.contact) : null;
+					var description = venue.description ? newPlace.place.fs_description(venue.description) : null;
+					var likes = venue.likes ? newPlace.place.fs_likes(venue.likes) : null;
+					var rating = venue.rating ? newPlace.place.fs_rating({rating: venue.rating, color: '#' + venue.ratingColor}) : null;
 
 			        // Replace the place without foursquare data for the one with it
 			        that.savedPlaces.replace(place, newPlace);

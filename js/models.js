@@ -18,4 +18,10 @@ var Place = function(place) {
 	if (place.opening_hours) {
 		this.openingHours = place.opening_hours.weekday_text;
 	};
+
+	this.fs_name;
+	this.fs_contact;
+	this.fs_description;
+	this.fs_likes;
+	this.fs_ratings;
 };

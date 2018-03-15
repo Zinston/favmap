@@ -512,12 +512,7 @@ function ViewModel() {
 		content += '<h5 class="infowindow-header">';
 		content += '<img width="20px" height="20px" src="';
 		content += place.icon + '" class="float-left">';
-		if (place.website) {
-			content += '<a href="' + place.website + '" target="_blank">';
-			content += place.name + '</a></h5>';
-		} else {
-			content += place.name + '</h5>';
-		};
+		content += place.website ? '<a href="' + place.website + '" target="_blank">' + place.name + '</a></h5>' : place.name + '</h5>';
 		content += '<p class="infowindow-subtitle">';
 		if (place.price_level) {
 			content += '<span class="float-left">';

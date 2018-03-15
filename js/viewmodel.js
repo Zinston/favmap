@@ -1,12 +1,12 @@
 function ViewModel() {
 	let that = this;
 
-	this.searchInput = ko.observable("");
-	this.filterString = ko.observable("");
+	this.searchInput = ko.observable('');
+	this.filterString = ko.observable('');
 
-	this.toast = ko.observable({type: "info", message: ""}); // Accepts types info, error and success
+	this.toast = ko.observable({type: 'info', message: ''}); // Accepts types info, error and success
 	this.toastType = ko.computed(function() {return that.toast().type});
-	this.toastCSS = ko.observable("");
+	this.toastCSS = ko.observable('');
 
 	this.toast.subscribe(function() {
 		that.toastCSS('show ' + that.toastType());
@@ -17,8 +17,8 @@ function ViewModel() {
 		}, 3000);
 	});
 
-	this.sidebarCSS = ko.observable("");
-	this.topNavbarCSS = ko.observable("");
+	this.sidebarCSS = ko.observable('');
+	this.topNavbarCSS = ko.observable('');
 
 	this.map;
 	this.searchBox;
@@ -35,7 +35,7 @@ function ViewModel() {
 	this.home = ko.observable();
 	this.home.subscribe(function() {
 		// Store home's place_id in localStorage
-		localStorage.setItem("home", that.home().place.place_id);
+		localStorage.setItem('home', that.home().place.place_id);
 	});
 
 	this.savedPlaces = ko.observableArray();
@@ -43,14 +43,14 @@ function ViewModel() {
 		// Add all places to filteredPlaces
 		that.filterPlaces();
 		// Reinitialize the filter
-		that.filterString("");
+		that.filterString('');
 		// Update the markers
 		that.updateMarkers();
 
 		// Store saved place_id's in localStorage
 		let savedPlaceIds = [];
 		that.savedPlaces().forEach((savedPlace) => savedPlaceIds.push(savedPlace.place.place_id));
-		localStorage.setItem("savedPlaces", ko.toJSON(savedPlaceIds));
+		localStorage.setItem('savedPlaces', ko.toJSON(savedPlaceIds));
 	});
 
 	this.filteredPlaces = ko.observableArray();
@@ -65,209 +65,209 @@ function ViewModel() {
 	this.initMap = function() {
 		let styles = [
 			{
-				"featureType": "administrative",
-				"elementType": "labels.text.fill",
-				"stylers": [
+				'featureType': 'administrative',
+				'elementType': 'labels.text.fill',
+				'stylers': [
 					{
-						"color": "#444444"
+						'color': '#444444'
 					}
 				]
 			},
 			{
-				"featureType": "landscape",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'landscape',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"color": "#f2f2f2"
+						'color': '#f2f2f2'
 					}
 				]
 			},
 			{
-				"featureType": "poi",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'poi',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"visibility": "off"
+						'visibility': 'off'
 					}
 				]
 			},
 			{
-				"featureType": "road",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'road',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"saturation": -100
+						'saturation': -100
 					},
 					{
-						"lightness": 45
+						'lightness': 45
 					}
 				]
 			},
 			{
-				"featureType": "road.highway",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'road.highway',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"visibility": "simplified"
+						'visibility': 'simplified'
 					}
 				]
 			},
 			{
-				"featureType": "road.highway",
-				"elementType": "geometry",
-				"stylers": [
+				'featureType': 'road.highway',
+				'elementType': 'geometry',
+				'stylers': [
 					{
-						"visibility": "simplified"
+						'visibility': 'simplified'
 					},
 					{
-						"color": "#ff6a6a"
+						'color': '#ff6a6a'
 					},
 					{
-						"lightness": "0"
+						'lightness': '0'
 					}
 				]
 			},
 			{
-				"featureType": "road.highway",
-				"elementType": "geometry.fill",
-				"stylers": [
+				'featureType': 'road.highway',
+				'elementType': 'geometry.fill',
+				'stylers': [
 					{
-						"color": "#ffc107"
+						'color': '#ffc107'
 					}
 				]
 			},
 			{
-				"featureType": "road.highway",
-				"elementType": "geometry.stroke",
-				"stylers": [
+				'featureType': 'road.highway',
+				'elementType': 'geometry.stroke',
+				'stylers': [
 					{
-						"color": "#ffc107"
+						'color': '#ffc107'
 					}
 				]
 			},
 			{
-				"featureType": "road.highway",
-				"elementType": "labels.text",
-				"stylers": [
+				'featureType': 'road.highway',
+				'elementType': 'labels.text',
+				'stylers': [
 					{
-						"visibility": "on"
+						'visibility': 'on'
 					}
 				]
 			},
 			{
-				"featureType": "road.highway",
-				"elementType": "labels.icon",
-				"stylers": [
+				'featureType': 'road.highway',
+				'elementType': 'labels.icon',
+				'stylers': [
 					{
-						"visibility": "on"
+						'visibility': 'on'
 					}
 				]
 			},
 			{
-				"featureType": "road.arterial",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'road.arterial',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"visibility": "on"
+						'visibility': 'on'
 					}
 				]
 			},
 			{
-				"featureType": "road.arterial",
-				"elementType": "geometry.fill",
-				"stylers": [
+				'featureType': 'road.arterial',
+				'elementType': 'geometry.fill',
+				'stylers': [
 					{
-						"color": "#ffc107"
+						'color': '#ffc107'
 					},
 					{
-						"lightness": "62"
+						'lightness': '62'
 					}
 				]
 			},
 			{
-				"featureType": "road.arterial",
-				"elementType": "labels.icon",
-				"stylers": [
+				'featureType': 'road.arterial',
+				'elementType': 'labels.icon',
+				'stylers': [
 					{
-						"visibility": "off"
+						'visibility': 'off'
 					}
 				]
 			},
 			{
-				"featureType": "road.local",
-				"elementType": "geometry.fill",
-				"stylers": [
+				'featureType': 'road.local',
+				'elementType': 'geometry.fill',
+				'stylers': [
 					{
-						"lightness": "75"
+						'lightness': '75'
 					}
 				]
 			},
 			{
-				"featureType": "transit",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'transit',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"visibility": "off"
+						'visibility': 'off'
 					}
 				]
 			},
 			{
-				"featureType": "transit.line",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'transit.line',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"visibility": "on"
+						'visibility': 'on'
 					}
 				]
 			},
 			{
-				"featureType": "transit.station.bus",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'transit.station.bus',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"visibility": "on"
+						'visibility': 'on'
 					}
 				]
 			},
 			{
-				"featureType": "transit.station.rail",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'transit.station.rail',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"visibility": "on"
+						'visibility': 'on'
 					}
 				]
 			},
 			{
-				"featureType": "transit.station.rail",
-				"elementType": "labels.icon",
-				"stylers": [
+				'featureType': 'transit.station.rail',
+				'elementType': 'labels.icon',
+				'stylers': [
 					{
-						"weight": "0.01"
+						'weight': '0.01'
 					},
 					{
-						"hue": "#ff0028"
+						'hue': '#ff0028'
 					},
 					{
-						"lightness": "0"
+						'lightness': '0'
 					}
 				]
 			},
 			{
-				"featureType": "water",
-				"elementType": "all",
-				"stylers": [
+				'featureType': 'water',
+				'elementType': 'all',
+				'stylers': [
 					{
-						"visibility": "on"
+						'visibility': 'on'
 					},
 					{
-						"color": "#17a2b8"
+						'color': '#17a2b8'
 					},
 					{
-						"lightness": "25"
+						'lightness': '25'
 					},
 					{
-						"saturation": "-23"
+						'saturation': '-23'
 					}
 				]
 			}
@@ -299,7 +299,7 @@ function ViewModel() {
 		// more details for that place.
 		google.maps.event.addListener(that.searchBox, 'places_changed', function () {
 			// Trigger an input event on the searchBox so KO updates the value
-			ko.utils.triggerEvent(searchElem, "input");
+			ko.utils.triggerEvent(searchElem, 'input');
 			// Search the place
 			that.searchPlace('searchBox');
 		});
@@ -365,7 +365,7 @@ function ViewModel() {
 		}, function(places, status) {
 			if (status === google.maps.places.PlacesServiceStatus.OK) {
 				if (places.length == 0) {
-					that.toast({type: "error", message: "Error: Couldn't find a place."});
+					that.toast({type: 'error', message: 'Error: Couldn\'t find a place.'});
 				} else {
 					that.getPlaceDetails(places[0].place_id, function(place) {
 						let place = that.makePlaceObject(place);
@@ -374,13 +374,13 @@ function ViewModel() {
 					});
 				};
 			} else {
-				let message = "Error: Couldn't get the info from Google... ";
-				message += "Test your Internet connexion and try again.";
-				that.toast({type: "error", message: message});
+				let message = 'Error: Couldn\'t get the info from Google... ';
+				message += 'Test your Internet connexion and try again.';
+				that.toast({type: 'error', message: message});
 			};
 		});
 
-		that.searchInput("");
+		that.searchInput('');
 	};
 
 	/**
@@ -390,14 +390,14 @@ function ViewModel() {
 		let places = that.searchBox.getPlaces();
 
 		if (places.length == 0) {
-			that.toast({type: "error", message: "Error: Couldn't find a place."});
+			that.toast({type: 'error', message: 'Error: Couldn\'t find a place.'});
 		} else {
 			let place = that.makePlaceObject(places[0]);
 			that.zoomOnPlace(place);
 			that.addMarker(place);
 		};
 
-		that.searchInput("");
+		that.searchInput('');
 	};
 
 	/**
@@ -414,9 +414,9 @@ function ViewModel() {
 			if (status === google.maps.places.PlacesServiceStatus.OK) {
 				callback(place);
 			} else {
-				let message = "Error: Couldn't get the info from Google... ";
-				message += "Test your Internet connexion and try again.";
-				that.toast({type: "error", message: message});
+				let message = 'Error: Couldn\'t get the info from Google... ';
+				message += 'Test your Internet connexion and try again.';
+				that.toast({type: 'error', message: message});
 			};
 		});
 	};
@@ -583,7 +583,7 @@ function ViewModel() {
 		if (that.home() && place != that.home().place) {
 			$('#go-btn-' + place.place_id).click(function() {
 				if (!that.home()) {
-					that.toast({type: "error", message: "Error: Set a home address to get directions..."});
+					that.toast({type: 'error', message: 'Error: Set a home address to get directions...'});
 					return;
 				};
 
@@ -685,7 +685,7 @@ function ViewModel() {
 	this.savePlace = function(place, init) {
 		if (!place.name) {
 			if (!that.currentPlace) {
-				that.toast({type: "error", message: "Error: there is no place to save."});
+				that.toast({type: 'error', message: 'Error: there is no place to save.'});
 				return;
 			};
 
@@ -705,8 +705,8 @@ function ViewModel() {
 		that.zoomOnPlace(place);
 
 		if (!init) {
-			that.searchInput("");
-			that.toast({type: "success", message: place.name + " was saved as a favorite."});
+			that.searchInput('');
+			that.toast({type: 'success', message: place.name + ' was saved as a favorite.'});
 			that.openSideBar();
 		};
 	};
@@ -747,8 +747,8 @@ function ViewModel() {
 			let filter = that.filterString().toLowerCase();
 			let itemName = item.place.name.toLowerCase();
 			let itemAddress = item.place.formatted_address.toLowerCase();
-			let itemType = item.place.type.toLowerCase() || "";
-			let itemPhone = item.place.international_phone_number || "";
+			let itemType = item.place.type.toLowerCase() || '';
+			let itemPhone = item.place.international_phone_number || '';
 			if (itemName.indexOf(filter) >= 0 || itemAddress.indexOf(filter) >= 0 || itemType.indexOf(filter) >= 0 || itemPhone.indexOf(filter) >= 0) {
 				that.filteredPlaces.push(item);
 			};
@@ -773,7 +773,7 @@ function ViewModel() {
 
 		if (!init) {
 			that.zoomOnPlace(that.currentPlace);
-			that.searchInput("");
+			that.searchInput('');
 			that.openSideBar();
 		};
 	};
@@ -782,8 +782,8 @@ function ViewModel() {
 	* @description Open the sidebar and push away the search field.
 	*/
 	this.openSideBar = function() {
-		that.sidebarCSS("active");
-		that.topNavbarCSS("push-right");
+		that.sidebarCSS('active');
+		that.topNavbarCSS('push-right');
 	};
 
 	// From Udacity course
@@ -839,14 +839,14 @@ function ViewModel() {
 	this.getStreetViewImage = function(address) {
 		address = encodeURIComponent(address);
 
-		let size = "200x100";
-		let key = "AIzaSyCTwor9YNahCVHkPbpH5Mzz2-NG2NUEGlM"
+		let size = '200x100';
+		let key = 'AIzaSyCTwor9YNahCVHkPbpH5Mzz2-NG2NUEGlM'
 
-		let url = "https://maps.googleapis.com/maps/api/streetview";
-		url += "?size=" + size;
-		url += "&location=" + address;
-		url += "&pitch=0";
-		url += "&key=" + key;
+		let url = 'https://maps.googleapis.com/maps/api/streetview';
+		url += '?size=' + size;
+		url += '&location=' + address;
+		url += '&pitch=0';
+		url += '&key=' + key;
 
 		return url;
 	};
@@ -865,12 +865,12 @@ function ViewModel() {
 	* @param {function} callback: the function to call on success - pass it the Foursquare ID and the place.
 	*/
 	this.getFoursquareID = function(place, callback) {
-		let url = "https://api.foursquare.com/v2/venues/search";
+		let url = 'https://api.foursquare.com/v2/venues/search';
 		let ll = place.place.location.lat() + ',' + place.place.location.lng();
 		let query = place.place.name;
-		const CLIENT_ID = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
-		const CLIENT_SECRET = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
-		const VERSION = "20180314";
+		const CLIENT_ID = 'CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD';
+		const CLIENT_SECRET = '5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N';
+		const VERSION = '20180314';
 
 		url += '?client_id=' + CLIENT_ID;
 		url += '&client_secret=' + CLIENT_SECRET;
@@ -884,10 +884,10 @@ function ViewModel() {
 					let fsid = data.response.venues[0].id;
 					callback(fsid, place)
 				} else {
-					console.log("Couldn't find this place on Foursquare Venues.");
+					console.log('Couldn\'t find this place on Foursquare Venues.');
 				};
 			} else {
-				console.log("Error: Foursquare's Search Venues returned an error " + data.meta.code + ".");
+				console.log('Error: Foursquare\'s Search Venues returned an error ' + data.meta.code + '.');
 			};
 		});
 	};
@@ -898,10 +898,10 @@ function ViewModel() {
 	* @param {Object} place: the place as in the savedPlaces observable array: {place: Place object as defined in models.js, marker: the associated Google marker object}.
 	*/
 	this.getFoursquareDetails = function(id, place) {
-		let url = "https://api.foursquare.com/v2/venues/" + id;
-		const CLIENT_ID = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
-		const CLIENT_SECRET = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
-		const VERSION = "20180314";
+		let url = 'https://api.foursquare.com/v2/venues/' + id;
+		const CLIENT_ID = 'CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD';
+		const CLIENT_SECRET = '5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N';
+		const VERSION = '20180314';
 
 		url += '?client_id=' + CLIENT_ID;
 		url += '&client_secret=' + CLIENT_SECRET;
@@ -922,10 +922,10 @@ function ViewModel() {
 					// Replace the place without foursquare data for the one with it
 					that.savedPlaces.replace(place, newPlace);
 				} else {
-					console.log("Couldn't find this place on Foursquare Details.");
+					console.log('Couldn\'t find this place on Foursquare Details.');
 				};
 			} else {
-				console.log("Error: Foursquare's Get Details returned an error " + data.meta.code + ".");
+				console.log('Error: Foursquare\'s Get Details returned an error ' + data.meta.code + '.');
 			};
 		});
 	};

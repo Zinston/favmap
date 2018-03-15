@@ -19,17 +19,17 @@ var Place = function(place) {
 		this.openingHours = place.opening_hours.weekday_text;
 	};
 
-	this.fs_name;
-	this.fs_contact;
-	this.fs_description;
-	this.fs_likes;
-	this.fs_rating;
+	this.fs_name = ko.observable();
+	this.fs_contact = ko.observable();
+	this.fs_description = ko.observable();
+	this.fs_likes = ko.observable();
+	this.fs_rating = ko.observable();
 
 	var that = this;
 	this.facebookUsername = ko.computed(function() {
-		return that.fs_contact ? "http://www.facebook.com/" + that.fs_contact.facebookUsername : null;
+		return that.fs_contact() ? (that.fs_contact().facebookUsername ? "http://www.facebook.com/" + that.fs_contact().facebookUsername : null) : null;
 	});
 	this.twitter = ko.computed(function() {
-		return that.fs_contact ? "https://www.twitter.com" + that.fs_contact.twitter : null;
+		return that.fs_contact() ? (that.fs_contact().twitter ? "https://www.twitter.com/" + that.fs_contact().twitter : null) : null;
 	});
 };

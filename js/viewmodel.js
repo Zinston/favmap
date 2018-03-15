@@ -326,8 +326,6 @@ function ViewModel() {
 			placeObject.photo = that.getStreetViewImage(place.formatted_address);
 		};
 
-	    that.getFoursquare(placeObject);
-
 	    return placeObject;
     };
 
@@ -644,6 +642,8 @@ function ViewModel() {
 		var placeToSave = {'place': place, 'marker': marker}
 		that.savedPlaces.push(placeToSave);
 
+	    that.getFoursquare(placeToSave);
+
 		if (that.tempMarker) {
 			that.tempMarker.setMap(null);
 		};
@@ -770,8 +770,8 @@ function ViewModel() {
 
 	this.getFoursquareID = function(place) {
 		var url = "https://api.foursquare.com/v2/venues/search";
-		var ll = place.location.lat() + ',' + place.location.lng();
-		var query = place.name;
+		var ll = place.place.location.lat() + ',' + place.place.location.lng();
+		var query = place.place.name;
 		var client_id = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
 		var client_secret = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
 		var version = "20180314";
@@ -811,11 +811,15 @@ function ViewModel() {
 				if (data.response.venue) {
 					var venue = data.response.venue;
 
-					place.fs_name = venue.name;
-					place.fs_contact = venue.contact;
-					place.fs_description = venue.description;
-					place.fs_likes = venue.likes;
-					place.fs_rating = {rating: venue.rating, color: venue.ratingColor};
+					var newPlace = place;
+					newPlace.place.fs_name(venue.name);
+					newPlace.place.fs_contact(venue.contact);
+					newPlace.place.fs_description(venue.description);
+					newPlace.place.fs_likes(venue.likes);
+					newPlace.place.fs_rating({rating: venue.rating, color: '#' + venue.ratingColor});
+
+			        // Replace the place without foursquare data for the one with it
+			        that.savedPlaces.replace(place, newPlace);
 				} else {
 					console.log("Couldn't find this place on Foursquare Details.");
 				};

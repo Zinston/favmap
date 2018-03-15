@@ -125,18 +125,24 @@
 					    				</tr>
 					    				<tr data-bind="if: place.fs_name">
 					    					<th scope="row">
-					    						<i class="fa fa-foursquare"></i>
+					    						<i class="fab fa-foursquare"></i>
 					    					</th>
 					    					<td>
 					    						<ul>
 					    							<li data-bind="text: place.fs_name"></li>
-					    							<li data-bind="if: place.fs_description, text: place.fs_description"></li>
-					    							<li data-bind="if: place.fs_contact">
-					    								<a data-bind="if: place.fs_contact.facebookUsername, attr: {href: place.facebookUsername}"><i class="fa fa-facebook"></i></a>
-					    								<a data-bind="if: place.fs_contact.twitter, attr: {href: place.twitter}"><i class="fa fa-twitter"></i></a>
+					    							<li data-bind="if: place.fs_description">
+					    								<span data-bind="text: place.fs_description"></span>
 					    							</li>
-					    							<li data-bind="if: place.likes, text: place.likes.summary"></li>
-					    							<li data-bind="if: place.rating, text: place.rating.rating, style: {color: place.rating.ratingColor}"></li>
+					    							<li data-bind="if: place.fs_contact">
+					    								<a data-bind="if: place.fs_contact().facebookUsername, attr: {href: place.facebookUsername}" class="mr-3"><i class="fab fa-facebook"></i></a>
+					    								<a data-bind="if: place.fs_contact().twitter, attr: {href: place.twitter}"><i class="fab fa-twitter"></i></a>
+					    							</li>
+					    							<li data-bind="if: place.fs_likes">
+					    								<span data-bind="text: place.fs_likes().summary"></span>
+					    							</li>
+					    							<li data-bind="if: place.fs_rating">
+					    								<span data-bind="text: place.fs_rating().rating, style: {color: place.fs_rating().color}"></span>
+					    							</li>
 					    						</ul>
 					    					</td>
 					    			</tbody>

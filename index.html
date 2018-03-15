@@ -128,20 +128,20 @@
 					    						<i class="fab fa-foursquare"></i>
 					    					</th>
 					    					<td>
-					    						<ul>
-					    							<li data-bind="text: place.fs_name"></li>
-					    							<li data-bind="if: place.fs_description">
+					    						<ul class="foursquare">
+					    							<li data-bind="text: place.fs_name" class="fs-name"></li>
+					    							<li data-bind="if: place.fs_description" class="fs-description mb-2">
 					    								<span data-bind="text: place.fs_description"></span>
 					    							</li>
-					    							<li data-bind="if: place.fs_contact">
-					    								<a data-bind="if: place.fs_contact().facebookUsername, attr: {href: place.facebookUsername}" class="mr-3"><i class="fab fa-facebook"></i></a>
-					    								<a data-bind="if: place.fs_contact().twitter, attr: {href: place.twitter}"><i class="fab fa-twitter"></i></a>
-					    							</li>
-					    							<li data-bind="if: place.fs_likes">
+					    							<li data-bind="if: place.fs_likes" class="fs-likes">
 					    								<span data-bind="text: place.fs_likes().summary"></span>
 					    							</li>
-					    							<li data-bind="if: place.fs_rating">
+					    							<li data-bind="if: place.fs_rating" class="fs-rating">
 					    								<span data-bind="text: place.fs_rating().rating, style: {color: place.fs_rating().color}"></span>
+					    							</li>
+					    							<li data-bind="if: place.fs_contact" class="fs-contact">
+					    								<a data-bind="if: place.fs_contact().facebookUsername, attr: {href: place.facebookUsername}" class="mr-3"><i class="fab fa-facebook"></i></a>
+					    								<a data-bind="if: place.fs_contact().twitter, attr: {href: place.twitter}"><i class="fab fa-twitter"></i></a>
 					    							</li>
 					    						</ul>
 					    					</td>

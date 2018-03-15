@@ -23,5 +23,5 @@ var Place = function(place) {
 	this.fs_contact;
 	this.fs_description;
 	this.fs_likes;
-	this.fs_ratings;
+	this.fs_rating;
 };

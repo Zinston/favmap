@@ -786,7 +786,7 @@ function ViewModel() {
 			if (data.meta.code == 200) {
 				if (data.response.venues.length > 0) {
 					var fsid = data.response.venues[0].id;
-					that.getFoursquareDetails(fsid);
+					that.getFoursquareDetails(place, fsid);
 				} else {
 					console.log("Couldn't find this place on Foursquare Venues.");
 				};
@@ -796,7 +796,7 @@ function ViewModel() {
 		});
 	};
 
-	this.getFoursquareDetails = function(id) {
+	this.getFoursquareDetails = function(place, id) {
 		var url = "https://api.foursquare.com/v2/venues/" + id;
 		var client_id = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
 		var client_secret = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
@@ -811,17 +811,17 @@ function ViewModel() {
 				if (data.response.venue) {
 					var venue = data.response.venue;
 
-					var name = venue.name;
-					var contact = venue.contact;
-					var description = venue.description;
-					var likes = venue.likes;
-					var rating = {rating: venue.rating, color: venue.ratingColor};
+					place.fs_name = venue.name;
+					place.fs_contact = venue.contact;
+					place.fs_description = venue.description;
+					place.fs_likes = venue.likes;
+					place.fs_rating = {rating: venue.rating, color: venue.ratingColor};
 
-					console.log(name);
-					console.log(contact);
-					console.log(description);
-					console.log(likes);
-					console.log(rating);
+					console.log(place.fs_name);
+					console.log(place.fs_contact);
+					console.log(place.fs_description);
+					console.log(place.fs_likes);
+					console.log(place.fs_rating);
 				} else {
 					console.log("Couldn't find this place on Foursquare Details.");
 				};

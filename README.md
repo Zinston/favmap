@@ -15,6 +15,7 @@ Make a list of favorite places on a world map, filter through them, get info on 
 	* Click the GO button (only if you've set a home already): four travel mode options are displayed in the infowindow. Pick one of them. The directions from your home to that location appear on the map.
 
 ## Notes
+* Your favorite places and your home are stored in your browser via localStorage.
 * The name of the place on the infowindow is a link to the place's website if one was found by Google.
 * You can change your home address but not remove it entirely. Once you have a home, you have a home.
 * No animals were hurt in the making of this app.

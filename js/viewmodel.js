@@ -788,16 +788,47 @@ function ViewModel() {
 					var fsid = data.response.venues[0].id;
 					that.getFoursquareDetails(fsid);
 				} else {
-					console.log("Couldn't find this place on Foursquare.");
+					console.log("Couldn't find this place on Foursquare Venues.");
 				};
 			} else {
-				console.log("Error: Foursquare returned an error " + data.meta.code + ".");
+				console.log("Error: Foursquare's Search Venues returned an error " + data.meta.code + ".");
 			};
 		});
 	};
 
 	this.getFoursquareDetails = function(id) {
-		console.log(id);
+		var url = "https://api.foursquare.com/v2/venues/" + id;
+		var client_id = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
+		var client_secret = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
+		var version = "20180314";
+		
+		url += '?client_id=' + client_id;
+		url += '&client_secret=' + client_secret;
+		url += '&v=' + version;
+
+		$.getJSON(url, function(data) {
+			if (data.meta.code == 200) {
+				if (data.response.venue) {
+					var venue = data.response.venue;
+
+					var name = venue.name;
+					var contact = venue.contact;
+					var description = venue.description;
+					var likes = venue.likes;
+					var rating = {rating: venue.rating, color: venue.ratingColor};
+
+					console.log(name);
+					console.log(contact);
+					console.log(description);
+					console.log(likes);
+					console.log(rating);
+				} else {
+					console.log("Couldn't find this place on Foursquare Details.");
+				};
+			} else {
+				console.log("Error: Foursquare's Get Details returned an error " + data.meta.code + ".");
+			};
+		});
 	};
 
 	this.init = function() {

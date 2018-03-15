@@ -1,5 +1,5 @@
 function ViewModel() {
-	var that = this;
+	let that = this;
 
 	this.searchInput = ko.observable("");
 	this.filterString = ko.observable("");
@@ -48,8 +48,8 @@ function ViewModel() {
 		that.updateMarkers();
 
 		// Store saved place_id's in localStorage
-		var savedPlaceIds = [];
-		for (var i = 0; i < that.savedPlaces().length; i++) {
+		let savedPlaceIds = [];
+		for (let i = 0; i < that.savedPlaces().length; i++) {
 			savedPlaceIds.push(that.savedPlaces()[i].place.place_id);
 		};
 		localStorage.setItem("savedPlaces", ko.toJSON(savedPlaceIds));
@@ -65,7 +65,7 @@ function ViewModel() {
 	* @description Initialize the map with styles.
 	*/
 	this.initMap = function() {
-		var styles = [
+		let styles = [
 			{
 				"featureType": "administrative",
 				"elementType": "labels.text.fill",
@@ -289,7 +289,7 @@ function ViewModel() {
 	*/
 	this.initSearchbox = function() {
 		// Create a searchbox in order to execute a places search
-		var searchElem = document.getElementById('places-search');
+		let searchElem = document.getElementById('places-search');
 		this.searchBox = new google.maps.places.SearchBox(searchElem);
 
 		// Bias the SearchBox results towards current map's viewport.
@@ -314,7 +314,7 @@ function ViewModel() {
 	* @returns {Object} Google MarkerImage object.
 	*/
 	this.makeMarkerIcon = function(markerColor) {
-		var markerImage = new google.maps.MarkerImage(
+		let markerImage = new google.maps.MarkerImage(
 			'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColor +
 			'|40|_|%E2%80%A2',
 			new google.maps.Size(21, 34),
@@ -331,7 +331,7 @@ function ViewModel() {
 	* @returns {Object} Place object as defined in models.js.
 	*/
 	this.makePlaceObject = function(place) {
-		var placeObject = new Place(place);
+		let placeObject = new Place(place);
 
 		if (!placeObject.photo) {
 			placeObject.photo = that.getStreetViewImage(place.formatted_address);
@@ -358,8 +358,8 @@ function ViewModel() {
 	* @description Search a place in Google from a user input (in that.searchInput) then get Details on it if successful.
 	*/
 	this.searchTextPlace = function() {
-		var bounds = that.map.getBounds();
-		var placesService = new google.maps.places.PlacesService(that.map);
+		let bounds = that.map.getBounds();
+		let placesService = new google.maps.places.PlacesService(that.map);
 
 		placesService.textSearch({
 			query: that.searchInput(),
@@ -370,13 +370,13 @@ function ViewModel() {
 					that.toast({type: "error", message: "Error: Couldn't find a place."});
 				} else {
 					that.getPlaceDetails(places[0].place_id, function(place) {
-						var place = that.makePlaceObject(place);
+						let place = that.makePlaceObject(place);
 						that.zoomOnPlace(place);
 						that.addMarker(place);
 					});
 				};
 			} else {
-				var message = "Error: Couldn't get the info from Google... ";
+				let message = "Error: Couldn't get the info from Google... ";
 				message += "Test your Internet connexion and try again.";
 				that.toast({type: "error", message: message});
 			};
@@ -389,12 +389,12 @@ function ViewModel() {
 	* @description Get Details on a place from a SearchBox suggestion selection.
 	*/
 	this.searchBoxPlace = function() {
-		var places = that.searchBox.getPlaces();
+		let places = that.searchBox.getPlaces();
 
 		if (places.length == 0) {
 			that.toast({type: "error", message: "Error: Couldn't find a place."});
 		} else {
-			var place = that.makePlaceObject(places[0]);
+			let place = that.makePlaceObject(places[0]);
 			that.zoomOnPlace(place);
 			that.addMarker(place);
 		};
@@ -408,7 +408,7 @@ function ViewModel() {
 	* @param {function} callback: the function to call if the request is successful.
 	*/
 	this.getPlaceDetails = function(place_id, callback) {
-		var placesService = new google.maps.places.PlacesService(that.map);
+		let placesService = new google.maps.places.PlacesService(that.map);
 
 		placesService.getDetails({
 			placeId: place_id
@@ -416,7 +416,7 @@ function ViewModel() {
 			if (status === google.maps.places.PlacesServiceStatus.OK) {
 				callback(place);
 			} else {
-				var message = "Error: Couldn't get the info from Google... ";
+				let message = "Error: Couldn't get the info from Google... ";
 				message += "Test your Internet connexion and try again.";
 				that.toast({type: "error", message: message});
 			};
@@ -429,7 +429,7 @@ function ViewModel() {
 	*/
 	this.zoomOnPlace = function(place) {
 		// Get the latlng
-		var latlng = place.location;
+		let latlng = place.location;
 
 		// Center the map on it and zoom
 		that.map.setCenter(latlng);
@@ -447,8 +447,8 @@ function ViewModel() {
 	* @returns {Object} marker: the Google Marker object that was added to the map.
 	*/
 	this.addMarker = function(place, type) {
-		var latlng = place.location;
-		var formatted_address = place.formatted_address;
+		let latlng = place.location;
+		let formatted_address = place.formatted_address;
 
 		if (that.tempMarker) {
 			that.tempMarker.setMap(null);
@@ -466,7 +466,7 @@ function ViewModel() {
 				var temp = true;
 		};
 
-		var marker = new google.maps.Marker({
+		let marker = new google.maps.Marker({
 			position: latlng,
 			map: that.map,
 			title: place.name,
@@ -476,7 +476,7 @@ function ViewModel() {
 
 		that.tempMarker = temp ? marker : null;
 
-		var infowindow = that.addInfoWindow(marker, place);
+		let infowindow = that.addInfoWindow(marker, place);
 
 		return marker;
 	};
@@ -510,7 +510,7 @@ function ViewModel() {
 	* @param {Object} place: the associated Place object as defined in models.js.
 	*/
 	this.populateInfoWindow = function(marker, place) {
-		var content = '<div class="infowindow">';
+		let content = '<div class="infowindow">';
 		content += '<h5 class="infowindow-header">';
 		content += '<img width="20px" height="20px" src="';
 		content += place.icon + '" class="float-left">';
@@ -523,7 +523,7 @@ function ViewModel() {
 		content += '<p class="infowindow-subtitle">';
 		if (place.price_level) {
 			content += '<span class="float-left">';
-			for (var i = 0; i < place.price_level; i++) {
+			for (let i = 0; i < place.price_level; i++) {
 				content += '<i class="fa fa-dollar-sign"></i>';
 			};
 			content += '</span>';
@@ -538,9 +538,9 @@ function ViewModel() {
 
 		content += '<br>';
 
-		var isHome = that.home() ? place.place_id == that.home().place.place_id : false;
-		var isFavorite = false;
-		for (var i = 0; i < that.savedPlaces().length; i++) {
+		let isHome = that.home() ? place.place_id == that.home().place.place_id : false;
+		let isFavorite = false;
+		for (let i = 0; i < that.savedPlaces().length; i++) {
 			isFavorite = place.place_id == that.savedPlaces()[i].place.place_id;
 		};
 
@@ -621,7 +621,7 @@ function ViewModel() {
 	* @description Change the content of the currently open infowindow to show travel options.
 	*/
 	this.infowindowAskTravelMode = function() {
-		var content = '<h5>How do you want to travel?</h5>';
+		let content = '<h5>How do you want to travel?</h5>';
 		content += '<div class="container"><form class="form-control"><div class="form-check">';
 		content += '<input class="form-check-input" type="radio" name="travelMode" id="bicycling" value="BICYCLING">';
 		content += '<label class="form-check-label" for="bicycling">Bicycling</label>';
@@ -647,7 +647,7 @@ function ViewModel() {
 	* @description Hide all saved markers but the home marker.
 	*/
 	this.hideSavedMarkers = function() {
-		for (var i = 0; i < that.savedPlaces().length; i++) {
+		for (let i = 0; i < that.savedPlaces().length; i++) {
 			that.savedPlaces()[i].marker.setMap(null);
 		};
 	};
@@ -657,9 +657,9 @@ function ViewModel() {
 	*/
 	this.showFilteredMarkers = function() {
 		if (that.filteredPlaces().length > 0) {
-			var bounds = new google.maps.LatLngBounds();
-			for (var i = 0; i < that.filteredPlaces().length; i++) {
-				var marker = that.filteredPlaces()[i].marker;
+			let bounds = new google.maps.LatLngBounds();
+			for (let i = 0; i < that.filteredPlaces().length; i++) {
+				let marker = that.filteredPlaces()[i].marker;
 				marker.setMap(that.map);
 				bounds.extend(marker.position);
 			};
@@ -695,12 +695,12 @@ function ViewModel() {
 				return;
 			};
 
-			var place = that.currentPlace;
+			let place = that.currentPlace;
 		};
 
-		var marker = that.addMarker(place, 'favorite');
+		let marker = that.addMarker(place, 'favorite');
 
-		var placeToSave = {'place': place, 'marker': marker}
+		let placeToSave = {'place': place, 'marker': marker}
 		that.savedPlaces.push(placeToSave);
 
 		that.getFoursquare(placeToSave);
@@ -749,13 +749,13 @@ function ViewModel() {
 	*/
 	this.filterPlaces = function() {
 		that.filteredPlaces.removeAll();
-		for (var i = 0; i < that.savedPlaces().length; i++) {
-			var item = that.savedPlaces()[i];
-			var filter = that.filterString().toLowerCase();
-			var itemName = item.place.name.toLowerCase();
-			var itemAddress = item.place.formatted_address.toLowerCase();
-			var itemType = item.place.type.toLowerCase() || "";
-			var itemPhone = item.place.international_phone_number || "";
+		for (let i = 0; i < that.savedPlaces().length; i++) {
+			let item = that.savedPlaces()[i];
+			let filter = that.filterString().toLowerCase();
+			let itemName = item.place.name.toLowerCase();
+			let itemAddress = item.place.formatted_address.toLowerCase();
+			let itemType = item.place.type.toLowerCase() || "";
+			let itemPhone = item.place.international_phone_number || "";
 			if (itemName.indexOf(filter) >= 0 || itemAddress.indexOf(filter) >= 0 || itemType.indexOf(filter) >= 0 || itemPhone.indexOf(filter) >= 0) {
 				that.filteredPlaces.push(item);
 			};
@@ -775,7 +775,7 @@ function ViewModel() {
 			};
 		};
 
-		var marker = that.addMarker(place, 'home');
+		let marker = that.addMarker(place, 'home');
 		that.home({place: place, marker: marker});
 
 		if (!init) {
@@ -811,7 +811,7 @@ function ViewModel() {
 			that.directionsDisplay.setMap(null);
 		};
 
-		var directionsService = new google.maps.DirectionsService;
+		let directionsService = new google.maps.DirectionsService;
 		directionsService.route({
 			// The origin is the passed in marker's position.
 			origin: origin.location,
@@ -846,10 +846,10 @@ function ViewModel() {
 	this.getStreetViewImage = function(address) {
 		address = encodeURIComponent(address);
 
-		var size = "200x100";
-		var key = "AIzaSyCTwor9YNahCVHkPbpH5Mzz2-NG2NUEGlM"
+		let size = "200x100";
+		let key = "AIzaSyCTwor9YNahCVHkPbpH5Mzz2-NG2NUEGlM"
 
-		var url = "https://maps.googleapis.com/maps/api/streetview";
+		let url = "https://maps.googleapis.com/maps/api/streetview";
 		url += "?size=" + size;
 		url += "&location=" + address;
 		url += "&pitch=0";
@@ -872,12 +872,12 @@ function ViewModel() {
 	* @param {function} callback: the function to call on success - pass it the Foursquare ID and the place.
 	*/
 	this.getFoursquareID = function(place, callback) {
-		var url = "https://api.foursquare.com/v2/venues/search";
-		var ll = place.place.location.lat() + ',' + place.place.location.lng();
-		var query = place.place.name;
-		var client_id = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
-		var client_secret = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
-		var version = "20180314";
+		let url = "https://api.foursquare.com/v2/venues/search";
+		let ll = place.place.location.lat() + ',' + place.place.location.lng();
+		let query = place.place.name;
+		let client_id = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
+		let client_secret = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
+		let version = "20180314";
 
 		url += '?client_id=' + client_id;
 		url += '&client_secret=' + client_secret;
@@ -888,7 +888,7 @@ function ViewModel() {
 		$.getJSON(url, function(data) {
 			if (data.meta.code == 200) {
 				if (data.response.venues.length > 0) {
-					var fsid = data.response.venues[0].id;
+					let fsid = data.response.venues[0].id;
 					callback(fsid, place)
 				} else {
 					console.log("Couldn't find this place on Foursquare Venues.");
@@ -905,10 +905,10 @@ function ViewModel() {
 	* @param {Object} place: the place as in the savedPlaces observable array: {place: Place object as defined in models.js, marker: the associated Google marker object}.
 	*/
 	this.getFoursquareDetails = function(id, place) {
-		var url = "https://api.foursquare.com/v2/venues/" + id;
-		var client_id = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
-		var client_secret = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
-		var version = "20180314";
+		let url = "https://api.foursquare.com/v2/venues/" + id;
+		let client_id = "CZDTEVWMPXCUBZMIW33QTHOAF0I25I0FNEK54JWBC2NLHUPD";
+		let client_secret = "5UMLDZH2VAS54BCJ1XMGTBOP2TKYUYQ1XA3EYEY2PSRAQV0N";
+		let version = "20180314";
 
 		url += '?client_id=' + client_id;
 		url += '&client_secret=' + client_secret;
@@ -917,14 +917,14 @@ function ViewModel() {
 		$.getJSON(url, function(data) {
 			if (data.meta.code == 200) {
 				if (data.response.venue) {
-					var venue = data.response.venue;
+					let venue = data.response.venue;
 
-					var newPlace = place;
-					var name = venue.name ? newPlace.place.fs_name(venue.name) : null;
-					var contact = venue.contact ? newPlace.place.fs_contact(venue.contact) : null;
-					var description = venue.description ? newPlace.place.fs_description(venue.description) : null;
-					var likes = venue.likes ? newPlace.place.fs_likes(venue.likes) : null;
-					var rating = venue.rating ? newPlace.place.fs_rating({rating: venue.rating, color: '#' + venue.ratingColor}) : null;
+					let newPlace = place;
+					let name = venue.name ? newPlace.place.fs_name(venue.name) : null;
+					let contact = venue.contact ? newPlace.place.fs_contact(venue.contact) : null;
+					let description = venue.description ? newPlace.place.fs_description(venue.description) : null;
+					let likes = venue.likes ? newPlace.place.fs_likes(venue.likes) : null;
+					let rating = venue.rating ? newPlace.place.fs_rating({rating: venue.rating, color: '#' + venue.ratingColor}) : null;
 
 					// Replace the place without foursquare data for the one with it
 					that.savedPlaces.replace(place, newPlace);
@@ -947,15 +947,15 @@ function ViewModel() {
 		this.favoriteIcon = this.makeMarkerIcon('ffc107');
 		this.homeIcon = this.makeMarkerIcon('6b7be3');
 
-		var bounds = new google.maps.LatLngBounds();
+		let bounds = new google.maps.LatLngBounds();
 		// Add saved places from local storage
-		var lsPlaces = localStorage.getItem('savedPlaces');
+		let lsPlaces = localStorage.getItem('savedPlaces');
 		if (lsPlaces) {
-			var place_ids = JSON.parse(lsPlaces);
-			for (var i = 0; i < place_ids.length; i++) {
-				var place_id = place_ids[i];
+			let place_ids = JSON.parse(lsPlaces);
+			for (let i = 0; i < place_ids.length; i++) {
+				let place_id = place_ids[i];
 				that.getPlaceDetails(place_id, function(place) {
-					var placeToSave = that.makePlaceObject(place);
+					let placeToSave = that.makePlaceObject(place);
 					that.savePlace(placeToSave, true);
 					that.largeInfowindow.setMap(null);
 					bounds.extend(place.geometry.location);
@@ -964,10 +964,10 @@ function ViewModel() {
 			};
 		};
 		// Add home from local storage
-		var home = localStorage.getItem('home');
+		let home = localStorage.getItem('home');
 		if (home) {
 			that.getPlaceDetails(home, function(place) {
-				var placeToSave = that.makePlaceObject(place);
+				let placeToSave = that.makePlaceObject(place);
 				that.makeHome(placeToSave, true);
 				that.largeInfowindow.setMap(null);
 				bounds.extend(place.geometry.location);
@@ -982,7 +982,7 @@ function ViewModel() {
 // This function is called as a callback on loading the Google Maps API
 function init() {
 	ko.options.deferUpdates = true;
-	var vm = new ViewModel();
+	let vm = new ViewModel();
 	ko.applyBindings(vm);
 	$('.sidebar-collapse').on('click', function() {
 		$('#sidebar').toggleClass('active');

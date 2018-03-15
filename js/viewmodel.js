@@ -816,12 +816,6 @@ function ViewModel() {
 					place.fs_description = venue.description;
 					place.fs_likes = venue.likes;
 					place.fs_rating = {rating: venue.rating, color: venue.ratingColor};
-
-					console.log(place.fs_name);
-					console.log(place.fs_contact);
-					console.log(place.fs_description);
-					console.log(place.fs_likes);
-					console.log(place.fs_rating);
 				} else {
 					console.log("Couldn't find this place on Foursquare Details.");
 				};

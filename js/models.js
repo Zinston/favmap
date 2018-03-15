@@ -24,4 +24,12 @@ var Place = function(place) {
 	this.fs_description;
 	this.fs_likes;
 	this.fs_rating;
+
+	var that = this;
+	this.facebookUsername = ko.computed(function() {
+		return that.fs_contact ? "http://www.facebook.com/" + that.fs_contact.facebookUsername : null;
+	});
+	this.twitter = ko.computed(function() {
+		return that.fs_contact ? "https://www.twitter.com" + that.fs_contact.twitter : null;
+	});
 };

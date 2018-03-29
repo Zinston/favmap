@@ -1,10 +1,10 @@
-# Neigborhood Map
+# Favmap
 Make a list of favorite places on a world map, filter through them, get info on them, and get directions to them.
 
-[Try it here!](http://developer.antoineguenet.com/neighborhood-map/)
+[Try it here!](http://developer.antoineguenet.com/favmap/)
 
 ## Installation
-* Clone this repository: `git clone https://github.com/Zinston/neighborhood-map.git`
+* Clone this repository: `git clone https://github.com/Zinston/favmap.git`
 * Open `index.html` in your favorite browser
 
 ## Usage
@@ -24,4 +24,4 @@ Make a list of favorite places on a world map, filter through them, get info on 
 Ideas, contributions and improvements are more than welcome. When adding a feature, please create a separate topic branch and first look at the Issues to find out if someone else is working on it already.
 
 ## License
-_Neighborhood Map_ is released under the [Apache License 2.0](/LICENSE).
+_Favmap_ is released under the [Apache License 2.0](/LICENSE).
